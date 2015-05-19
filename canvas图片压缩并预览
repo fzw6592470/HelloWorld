@@ -1,0 +1,195 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<meta name="format-detection" content="telephone=no"> 
+	<title>bootstrap 开发</title>
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<style type="text/css">
+	.dataTable td{
+	  	padding-top: 10px; paddding-bottom: 10px;
+	}
+	.table-1 .ta-td{
+		height:45px;
+		border-bottom:1px solid #9C9A9A;
+	}
+	*[isimageuploader='true']{
+		display: inline-block;
+		width: 35%;
+		position: relative;
+		overflow: hidden;
+		text-align: center;
+		border-radius: 1px;
+		background-color: white;
+		border: 1pt solid #e9e9e9;
+		margin-left: 3px;
+		margin-right: 3px;
+		margin-top: 2px;
+		z-index:1;
+		-webkit-transition: background-color 0.5s ease 0ms;
+		transition: background-color 0.5s ease 0ms;
+	}
+	.uploaderContent{
+		margin: 1px;
+		height: 100px;
+		line-height: 100px;
+		background-color: white;
+		border-radius: 5px;
+	}
+	.uploaderfile{
+		width:100%;height:100px;position:absolute;top:0;left:0;z-index: 3;background:none;border:0;opacity: 0;
+	}
+	.uploaderContentover{
+		background-color: none;
+		position: absolute;
+		top:0;
+		right:0;
+		z-index:9;
+		text-align: right;
+	}
+	.uploaderContentover img{
+		width:38%;
+		height:41%;
+	}
+	.uploadbtn{
+		width: 32%;
+		height: 35px;
+		line-height: 35px;
+		background-image: -webkit-gradient(linear, left top, left bottom, from( #ff6600), to( #ff6600 ));
+		background-image: -webkit-linear-gradient( #ff6600, #ff6600 );
+		background-image: -moz-linear-gradient( #ff6600, #ff6600 );
+		background-image: -ms-linear-gradient( #ff6600, #ff6600);
+		background-image: -o-linear-gradient( #ff6600 , #ff6600);
+		background-image: linear-gradient( #ff6600 , #ff6600);
+		border-radius: 10px;
+		box-shadow: none;
+		border: 1px solid #ff6600;
+		margin-left: 33%;
+		margin-bottom: 10px;
+		color:#fff;
+		font-size: 16px;
+	}
+	</style>
+	<script type="text/javascript">
+	function chooseImge(e,smallImgObj) {
+	var file = e.currentTarget.files[0];
+	//var file = e.currentTarget.files[objLength];
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		var image = $('<img/>');
+		image.bind('load', function() {
+			var square = 450;
+			var canvas = document.createElement('canvas');
+			var imageWidth;
+			var imageHeight;
+			if (this.width > 0 && this.height > 0) {
+				var rate = square / this.width;
+				if (rate <= 1) {
+					imageWidth = this.width * rate;
+					imageHeight = this.height * rate
+				} else {
+					imageWidth = this.width;
+					imageHeight = this.height;
+				}
+			}
+			canvas.width = imageWidth;
+			canvas.height = imageHeight;
+			var context = canvas.getContext('2d');
+			context.clearRect(0, 0, imageWidth, imageHeight);
+			context.drawImage(this, 0, 0, imageWidth, imageHeight);
+			var data = canvas.toDataURL('image/jpeg');
+
+			var thumb = $('<img/>');
+			if (/ipad|iphone|mac/i.test(navigator.userAgent)) {
+				smallImgObj.attr('src', e.target.result).show();
+			}
+			else{
+				smallImgObj.attr('src', data).show();
+				
+			}
+
+		});
+		if (/ipad|iphone|mac/i.test(navigator.userAgent)) {
+			image.attr('src', e.target.result);
+		}
+		else{
+			var url = webkitURL.createObjectURL(file);
+			image.attr('src', url);
+			
+		}
+		
+	};
+	reader.readAsDataURL(file);
+
+}
+	</script>
+</head>
+<body>
+	<!-- <span>2015</span><span>-05</span><span>-15</span>&nbsp;&nbsp;<span>24时</span><br />
+	<br />
+
+	<br /><br /><br />
+	<br />
+	<a href="tel:95511">95511</a> -->
+	
+	<table class="dataTable" style="width:100%;">
+		<tr>
+			<td colspan="5" class="ta-td" id="uploaderdiv">
+				
+			</td>
+		</tr>
+		<tr>
+			<td colspan="5">
+				<button id="upload" type="button" class="uploadbtn" onclick="upLoad()">点击上传</button>
+			</td>
+		</tr>
+	</table>
+	
+	<script type="text/javascript">
+		var upLoadImageArray = [];
+		var imagIndex = 0;
+		var photoCount = 0;
+		function appendObj(imagIndex){
+			var photoObj =  $('<div isimageuploader="true" data-type="'
+				+ (imagIndex)
+				+ '" id="imageUp_'
+				+ (imagIndex)
+				+ '" style="width: 35%;height: 100px;float: left;margin-left: 10%;margin-bottom: 10px;border: 1px solid #ccc;">'
+				+ '<div class="uploaderContent" style="background-image: url(images/addPhoto.png);background-repeat: no-repeat;background-position: center;background-size: auto;">'
+				+ '<label class="uploaderLabel" style="opacity:0;">invisible</label>'
+				+ '</div>'
+				+ '<input id="newAppFile'
+				+ (imagIndex)
+				+ '" name="newAppFile" class="uploaderfile" type="file"/>'
+				+'<input type="hidden" id="iName" />'
+				+ '<img src="" id="imagForFile" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:1;display:none">'
+				+ '<div class="uploaderContentover">'
+				+ '<img src="images/3-2.png" style="display:none;" id="upLoadIconSuccess"/>'
+				+ '<img src="images/3.png" style="display:none;" id="upLoadIconError"/>'
+				+ '</div>' + '</div>');
+			$('#uploaderdiv').append(photoObj);
+			bindFileChange(photoObj);
+		}
+		$(function(){
+			for(var i=0;i<2;i++){
+				appendObj(i);
+			}
+			
+		})
+		function bindFileChange(obj){
+			obj.find('input').bind('change',function(e){
+				$('.activeThumb').removeClass('activeThumb');
+				chooseImge(e, $(this).parent().find("#imagForFile"));
+				$(this).parent().find("#imagForFile").css('z-index', '4');
+				photoObjID = $(this).parent().attr('id');
+				$(this).parent().addClass('activeThumb');
+				$("#imgNames").val($(this).val());
+				$(this).parent().find("#iName").val($(this).val());
+				chooseFlag = true;
+			})
+		}
+	</script>
+</body>	
+</html>
