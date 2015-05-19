@@ -1,0 +1,207 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<title>This Is FristGames By My Self</title>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		body{
+			font-size: 12px;
+			font-family: "宋体",sans-serif;
+			color: #454545;
+			box-sizing:border-box;
+		}
+		canvas{
+			width:320px;
+			height:260px;
+			margin:20px auto;
+			display: block;
+		}
+		form{
+			width:320px;
+			height:auto;
+			margin:5px auto;
+		}
+		label{
+			width: 35%;
+			height:30px;
+			line-height: 30px;
+			float: left;
+			text-align: center;
+		}
+		input{
+			height:30px;
+			line-height: 30px;
+			width:60%;
+			float: right;
+			margin-right:5%;
+			border:0;
+			border-bottom: 1px solid #ccc;
+		}
+		button{
+			width:300px;
+			margin:0 auto;
+			display: block;
+			height:35px;
+			line-height:35px;
+			background-color:#f65404;
+			border:1px solid #ccc;
+			outline: 0;
+			color:#fff;
+			border-radius:12px;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myGame" name="myGame">
+		if you can see this word , you should download the mastest verson for IE. or used google to opened, thank you very much!
+	</canvas>
+	<button onclick="gotoPlay()">Go To Play</button>
+	<form name="f">
+		<label>提示信息</label><input value="you need srow agine!" name="Mesg" type="text" />
+		<label>分数</label><input value="6" name="Point" type="text" />
+		<label>押注金币</label><input value="0" name="Gold" type="text" />
+		<label>总金币</label><input value="100" name="allGold" type="text" />
+	</form>
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript">
+		var ctx,dx,dy;//移动的X，Y坐标，
+		var cwidth=320,cheight=260;//画布的高度宽度
+		var dicex = 40,dicey = 20,dradius=10;//圆的半径
+		var dwidth=100,dheight=100;// 色子的高度宽度
+		var number;// 计算色子的点数
+		
+		var Mesg = document.f.Mesg.value;
+		//var count = 0;
+		function gotoPlay(){
+			ctx = document.getElementById('myGame').getContext('2d');
+			ctx.clearRect(0,0,cwidth,cheight);
+			var random = 1+ Math.floor(Math.random()*6);// 随机获得1-6之间的数
+			number = random;
+			dx = dicex;
+			dy = dicey;
+			drawface(random);
+			dx = dicex + 120;
+			random = 1+ Math.floor(Math.random()*6);// 随机获得1-6之间的数
+			number += random;
+			drawface(random);
+			var Point = document.f.Point.value;
+			var Gold = parseInt(document.f.Gold.value);
+			var allGold = parseInt(document.f.allGold.value);
+			if(Point != ''){
+				if(Gold > allGold){
+					document.f.Mesg.value = '您押注的金币不能大于总金币数！';
+					document.f.Mesg.style.color = "rgb(255,0,0)";
+				
+				}else{
+					if(number == Point){
+						document.f.Mesg.value = '您赢了！';
+						document.f.Mesg.style.color = "rgb(255,0,0)";
+						allGold += Gold*2;
+						document.f.allGold.value = allGold;
+						
+					}else if(number > Point){
+						document.f.Mesg.value = '您赢了！';
+						document.f.Mesg.style.color = "rgb(255,0,0)";
+						allGold += Gold;
+						document.f.allGold.value = allGold;
+						
+					}else {
+						if(number == 2){
+							document.f.Mesg.value = '您输了！';
+							document.f.Mesg.style.color = "rgb(255,0,0)";
+							allGold -= Gold*2;
+							document.f.allGold.value = allGold;
+							
+						}else{
+							document.f.Mesg.value = '您输了！';
+							document.f.Mesg.style.color = "rgb(255,0,0)";
+							allGold -= Gold;
+							document.f.allGold.value = allGold;
+							
+						}
+					}
+				}
+				//count++;
+			}
+			if(allGold >= 10000){
+				document.f.Mesg.value = '您到达了金币的上限！';
+				allGold = 10000;
+				document.f.allGold.value = allGold;
+				return false;
+			}
+		}
+		function drawface(random){
+			ctx.beginPath();
+			ctx.strokeStyle = 'rgb(0,0,255)';
+			ctx.strokeRect(dx,dy,dwidth,dheight);
+			ctx.closePath();
+			//ctx.stroke();
+			switch(random){
+				case 1 : 
+					drawOne();
+					break;
+				case 2 : 
+					drawTwo();
+					break;
+				case 3 : 
+					drawTwo();
+					drawOne();
+					break;
+				case 4 : 
+					drawFour();
+					break;
+				case 5 : 
+					drawFour();
+					drawOne();
+					break;
+				case 6 : 
+					drawFour();
+					drawTwoMid();
+					break;
+			}
+		}
+		function drawOne(){
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(255,0,0)";
+			ctx.arc(dx+50,dy+50,dradius,0,Math.PI*2,false);
+			ctx.fill();
+			ctx.closePath();
+		}
+		function drawTwo(){
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(255,0,0)";
+			ctx.arc(dx+20,dy+20,dradius,0,Math.PI*2,false);
+			ctx.arc(dx+80,dy+80,dradius,0,Math.PI*2,false);
+			ctx.fill();
+			ctx.closePath();
+		}
+		function drawFour(){
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(255,0,0)";
+			ctx.arc(dx+20,dy+20,dradius,0,Math.PI*2,false);
+			ctx.arc(dx+80,dy+20,dradius,0,Math.PI*2,false);
+			ctx.fill();
+			ctx.closePath();
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(255,0,0)";
+			ctx.arc(dx+20,dy+80,dradius,0,Math.PI*2,false);
+			ctx.arc(dx+80,dy+80,dradius,0,Math.PI*2,false);
+			ctx.fill();
+			ctx.closePath();
+		}
+		function drawTwoMid(){
+			ctx.beginPath();
+			ctx.fillStyle = "rgb(255,0,0)";
+			ctx.arc(dx+20,dy+50,dradius,0,Math.PI*2,false);
+			ctx.arc(dx+80,dy+50,dradius,0,Math.PI*2,false);
+			ctx.fill();
+			ctx.closePath();
+		}
+	</script>
+</body>
+</html>
