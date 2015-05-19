@@ -1,0 +1,319 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<title>意健险-通用模板</title>
+	<meta name="android" content="Martin_Cui">
+	<link rel="stylesheet" type="text/css" href="css/miuiall.css">
+	<link rel="stylesheet" type="text/css" href="css/miuiindex.css">
+	<link rel="stylesheet" type="text/css" href="css/mobiscroll.core-2.5.2.css">
+
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	
+	<script type="text/javascript" src="js/mobiscroll.core-2.5.2.js"></script>
+	<script type="text/javascript" src="js/mobiscroll.core-2.5.2-zh.js"></script>
+	
+	<script type="text/javascript" src="js/mobiscroll.datetime-2.5.1.js"></script>
+	<script type="text/javascript" src="js/mobiscroll.datetime-2.5.1-zh.js"></script>
+	<script type="text/javascript" src="js/miuiindex.js"></script>
+	<script src="js/common.js" type="text/javascript"></script>
+</head>
+<body class="contentBody" onload="doLoad()">
+	<!-- 这是top title -->
+	<div class="contentTop">
+		<a href="javascript:history.back(-1);"></a>
+		<h1>平安意健险XX险种</h1>
+	</div>
+	<!-- 这是导航栏 -->
+	<section class="contentNav">
+		<div class="contentNavicon">
+			<span class="contentNaviconem contentNavicon01">
+				<img src="images/icon01.png">
+			</span>
+			<span class="contentNaviconem contentNavicon05 contentNavicon05_01 hide">
+				<img src="images/icon_yellow.png">
+			</span>
+			<span class="contentNaviconem contentNavicon02 hide">
+				<img src="images/icon02.png">
+			</span>
+			<span class="contentNaviconem contentNavicon05 contentNavicon05_02 hide">
+				<img src="images/icon_yellow.png">
+			</span>
+			<span class="contentNaviconem contentNavicon03 hide">
+				<img src="images/icon03.png">
+			</span>
+			<span class="contentNaviconem contentNavicon05 contentNavicon05_03 hide">
+				<img src="images/icon_yellow.png">
+			</span>
+			<span class="contentNaviconem contentNavicon04 hide">
+				<img src="images/icon04.png">
+			</span>
+			<img src="images/icon00.png" class="contentNaviconbg">
+		</div>
+		<div class="contentNavText clearfix">
+			<span class="color01 contentNavText01 left">产品信息</span>
+			<span class="contentNavText02 left">投保人信息</span>
+			<span class="contentNavText03 left">被保险人信息</span>
+			<span class="contentNavText04 left">付款</span>
+		</div>
+	</section>
+	<section class="contentBody">
+		<div class="contentBodyOnly">
+			<p>
+				<span class="left cui_spanspan">选择方案</span>
+				<select class="select_class" onchange="changeTaoCan($(this).val())" id="taocan">
+					<option value="OX" selected>请选择</option>
+					<option value="1">境外旅游A款</option>
+					<option value="2">境外旅游B款</option>
+					<option value="3">境外旅游C款</option>
+				</select>
+				<span class="right cui_spanright tc cui_posi bgC_FFF"><img src="images/icon_right.png"></span>
+			</p>
+			<p>
+				<span class="left cui_spanspan">保险起期</span>
+				<input class="left input_class" type="text" id="dateInput" readonly onchange="chooseSatartDate(this.value)" style="opacity: 0;">
+				<span class="left cui_spanTime">
+					<span id="startYear" class="left">2015-</span>
+					<span id="startMonth" class="left">03-</span>
+					<span id="startDay" class="left">01</span>
+					<span class="left">&nbsp;&nbsp;00时</span>
+				</span>
+				<span class="right cui_spanright tc"><img src="images/icon_right.png"></span>
+			</p>
+			<p>
+				<span class="left cui_spanspan">保险止期</span>
+				<input class="left input_class" type="text" id="dateOverInput" readonly onchange="chooseEndDate()" style="opacity: 0;">
+				<span class="left cui_spanTime">
+					<span id="endYear" class="left">2015-</span>
+					<span id="endMonth" class="left">03-</span>
+					<span id="endDay" class="left">01</span>
+					<span class="left">&nbsp;&nbsp;24时</span>
+				</span>
+				<span class="right cui_spanright tc"><img src="images/icon_right.png"></span>
+			</p>
+		</div>
+		<table class="contentTableGuarantee fsize02">
+			<tr>
+				<th class="tl" width="60%">保障范围</th>
+				<th class="tr" width="40%">保险金额</th>
+			</tr>
+			<tr>
+				<td class="tl" width="60%">平安监护人责任保险主险条款</td>
+				<td class="tr" width="40%">60000.0元</td>
+			</tr>
+			<tr>
+				<td class="tl" width="60%">责任保险主险条款</td>
+				<td class="tr" width="40%">2000.0元</td>
+			</tr>
+			<tr>
+				<td class="tl" width="60%">平安监护人条款</td>
+				<td class="tr" width="40%">10000000元</td>
+			</tr>
+		</table>
+		<table class="contentTableGuarantee fsize02 hide">
+			<tr>
+				<td class="tl" width="60%">平安监护人条款</td>
+				<td class="tr" width="40%">10000000元</td>
+			</tr>
+			<tr>
+				<td class="tl" width="60%">平安监护人条款</td>
+				<td class="tr" width="40%">10000000元</td>
+			</tr>
+			<tr>
+				<td class="tl" width="60%">平安监护人条款</td>
+				<td class="tr" width="40%">10000000元</td>
+			</tr>
+			<tr>
+				<td class="tl" width="60%">平安监护人条款</td>
+				<td class="tr" width="40%">10000000元</td>
+			</tr>
+			<tr>
+				<td class="tl" width="60%">平安监护人条款</td>
+				<td class="tr" width="40%">10000000元</td>
+			</tr>
+			<tr>
+				<td class="tl" width="60%">平安监护人条款</td>
+				<td class="tr" width="40%">10000000元</td>
+			</tr>
+		</table>
+		<div class="contentTableShrink hide"><a href="#" onclick="showMoreContent(this)">查看详情内容</a></div>
+		<table class="contentTableGuarantee fsize02">
+			<tr>
+				<th class="tl" width="60%">特别约定</th>
+				<th class="tr" width="40%">&nbsp;</th>
+			</tr>
+			<tr>
+				<td class="tl" colspan="2">
+					<div id="specialInsurance" class="specialInsurance">
+						<div id="specialInsurancener">
+		 					*对于年度保险计划(即保险期限为一年),本公司承担保险责任的每次出行期间最长不超过90天,如果是单次保险计划,除非本合同另有约定,本公司承担保险责任的单次出行期间最长不超过183天.For annual plan, the maximum length of each insured trip is 90 days. For single trip plan, subject to otherwise agreed in the contract, the maximum length of each insured tirp is 183 days.*24小时全球援助热线(欧乐救援)24hr Global Assist Hotline (Euro-Alarm):+86 10 84416636.*无其他特别约定.No other special agreement.
+	 					</div>
+					</div>
+					<div id="readmore" class="specialInsurance" style="margin-top:3%;">
+							 					
+					</div>
+				</td>
+			</tr>
+		</table>
+		<table class="contentTableGuarantee fsize02">
+			<tr>
+				<td colspan="2" class="fwight">
+					标准保费&nbsp;<font color="#F60"><span id="amount">12</span>元/人</font>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div id="error" class="color03"></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="button" class="input_submit" id="AllowsPurchase" onclick="purchase()" value="购买" />
+				</td>
+			</tr>
+		</table>
+	</section>
+	<footer class="allFooter">
+		&copy; 中国平安财产保险股份有限公司
+	</footer>
+	<form action="" method="post" name="GetThisForm" id="GetThisForm">
+		<input type="hidden" name="account" value="${account }"/>
+	 	<input type="hidden" name="plansId" value="${plansId }"/>
+	 	<input type="hidden" name="productCode" value="${productCode }"/>
+	 	<input type="hidden" name="productName" value="${PRODUCT_NAME }"/>
+	 	<input type="hidden" name="insuranceCategory" value="${SYSTEM_ID }"/>
+	 	<input type="hidden" name="pageView" value="${PAGE_TEMPLATE_ID }"/>
+	 	<input type="hidden" name="insuranceMonth" value="${productDetail.insuranceMonth }"/>
+     	<input type="hidden" name="insuranceDay" value="${productDetail.insuranceDay }"/>
+     	<input type="hidden" name="underwriteMonth" value="${MAX_UNDERWRITE_MONTH }"/>
+     	<input type="hidden" name="underwriteDay" value="${MAX_UNDERWRITE_DAY }"/>
+     	<input type="hidden" name="leastBeginDate" value="${productDetail.leastBeginDate }"/>
+     	<input type="hidden" name="topAcceptInsurAge" value="${productDetail.topAcceptInsurAge }"/>
+     	<input type="hidden" name="leastAcceptInsurAge" value="${productDetail.leastAcceptInsurAge }"/>
+     	<input type="hidden" name="insuranceWasCurrday" value="${productDetail.insuranceWasCurrday }"/>
+     	<input type="hidden" name="insuranceBeginExplanation" value="${productDetail.insuranceBeginExplanation }"/>
+     	<input type="hidden" name="isSchengenVisa" value="${productDetail.isSchengenVisa }"/>
+     	<input type="hidden" name="oldDigestTexts" value="${oldDigestTexts}"/>
+     	<input type="hidden" name="amount" value="${AMOUNT}"/>
+	 	<input type="hidden" name="insuranceBeginTime" id="insuranceBeginTime" value=""/>
+	 	<input type="hidden" name="insuranceEndTime" id="insuranceEndTime" value=""/>
+
+	 	<input type="hidden" name="taocan" value=""/>
+	 	<input type="hidden" name="insuranceEndTime" id="insuranceEndTime" value=""/>
+	 	<input type="hidden" name="insuranceEndTime" id="insuranceEndTime" value=""/>
+	</form>
+	<script>
+		$(function(){
+			//  返回按钮的大小设置
+			var ah = $('.contentTop a').height();
+			$('.contentTop a').width(ah);
+
+			//  导航图标的大小设置
+			var bw = $('.contentNaviconbg').width();
+			var OriginalW = 1151;
+			var OriginalH = 64;
+
+			var bh = (bw/OriginalW) * OriginalH;
+			//alert(bh)
+			$('.contentNaviconbg').height(bh);
+
+			// 图标的大小
+			$('.contentNavicon01').width(bh);
+			$('.contentNavicon01').height(bh);
+			$('.contentNavicon02').width(bh);
+			$('.contentNavicon02').height(bh);
+			$('.contentNavicon03').width(bh);
+			$('.contentNavicon03').height(bh);
+			$('.contentNavicon04').width(bh);
+			$('.contentNavicon04').height(bh);
+			//alert(bw)
+
+			var OriginalYw = 299; //横线的原始长度
+			var OriginalYh = 13;
+			var yw = (bw/OriginalW) * OriginalYw;
+			var yh = (bw/OriginalW) * OriginalYh;
+			$('.contentNavicon05').width(yw);
+			$('.contentNavicon05').height(yh);
+
+			var mt = (bh - yh) / 2;
+
+			$('.contentNavicon05').css('top',mt);
+
+			var dw = $(document).width();
+			var ml = dw * 0.05;
+			var c51 = ml + bh;//第一个横线
+			var c2l = ml + bh + yw;//第二个圆
+			var c53 = ml + bh + yw + bh;//第二个横线
+			var c3l = ml + bh + yw + bh + yw;//第三个圆
+			var c54 = ml + bh + yw + bh + yw + bh;//第三个横线
+			var c4l = ml + bh + yw + bh + yw + bh + yw;//第四个圆
+			$('.contentNavicon05_01').css('left',c51);
+			$('.contentNavicon02').css('left',c2l);
+			$('.contentNavicon05_02').css('left',c53);
+			$('.contentNavicon03').css('left',c3l);
+			$('.contentNavicon05_03').css('left',c54);
+			$('.contentNavicon04').css('left',c4l);
+
+			// 文字
+			var fz = (12 / 320) * dw;
+			var lh = fz + 10;
+			$('.contentNavText').css('fontSize',fz);
+			$('.contentNavText').css('height',lh);
+			$('.contentNavText').css('lineHeight',lh + 'px');
+			var t1 = ml - fz;
+			var t2 = ml*2;
+			var t3 = ml*1.6;
+			var t4 = ml*2.7;
+			$('.contentNavText01').css('marginLeft',t1);
+			$('.contentNavText02').css('marginLeft',t2);
+			$('.contentNavText03').css('marginLeft',t3);
+			$('.contentNavText04').css('marginLeft',t4);
+			
+			//向右的图标
+			var sl = (40 - 14) / 2;
+			$('.cui_spanright img').css('width',14);
+			$('.cui_spanright img').css('marginTop',sl);
+
+
+			// 收起
+			var slideHeight= 120;
+			var defineHeight = $('#specialInsurance').height();
+			if(defineHeight > slideHeight){
+				$('#specialInsurance').css('height' , slideHeight + 'px');
+				$('#readmore').append('<a href="#">查看详情内容</a>');
+				$('#readmore a').click(function(){
+		
+		            var curHeight = $('#specialInsurance').height();
+		            
+		            curHeight = Math.floor(curHeight);
+		            
+		            if(curHeight == slideHeight){
+		
+		                $('#specialInsurance').animate({
+		
+		                  height: defineHeight
+		
+		                }, "normal");
+		
+		                $('#readmore a').html('收起');
+				
+		            }else{
+		
+		                $('#specialInsurance').animate({
+		
+		                  height: slideHeight
+		
+		                }, "normal");
+		
+		                $('#readmore a').html('查看详情内容');		                
+		
+		            }
+		            return false;
+				 });    
+
+			}
+		});
+	</script>
+</body>
+</html>
