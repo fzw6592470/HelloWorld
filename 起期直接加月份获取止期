@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<title>test001</title>
+	<meta name="Android" content="Martin_Cui">
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+</head>
+<body>
+	<script TYPE="text/javascript">
+		//var ddd = '2015/02/25';
+		var ddd = '2015-02-28';
+		var ndd = new Date(Date.parse(ddd.replace(/-/g,'/')));
+		//alert(ndd);
+		function AddMonths(d, n) {
+			var rdd = new Date(d);
+		    var t = new Date(d);
+		    t.setMonth(t.getMonth() + n);
+		    if (t.getDate() != rdd.getDate()) {
+		     	t.setDate(0); 
+		  	}
+		    return t;
+		 }
+		 $(function(){
+		 	var ssd = '2015/3/1';
+		 	var sdf = AddMonths(ssd,12);
+		 	//alert(sdf)
+		 	var name = AddMonths(ndd,12);
+
+		 	var a = name.getTime();
+		 	var b = ndd.getTime();
+		 	var day = (a - b)/1000/60/60/24 -1;
+		 	window.console.log(name);
+		 	window.console.log(ndd);
+		 	window.console.log(day);
+		 })
+		 
+	</script>
+</body>
+</html>
