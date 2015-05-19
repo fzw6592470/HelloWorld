@@ -1,0 +1,226 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<title>被保人信息</title>
+	<meta name="android" content="Martin_Cui">
+	<link rel="stylesheet" type="text/css" href="css/miuiall.css">
+	<link rel="stylesheet" type="text/css" href="css/miuiindex.css">
+	<link rel="stylesheet" type="text/css" href="css/mobiscroll.core-2.5.2.css">
+
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	
+	<script type="text/javascript" src="js/mobiscroll.core-2.5.2.js"></script>
+	<script type="text/javascript" src="js/mobiscroll.core-2.5.2-zh.js"></script>
+	
+	<script type="text/javascript" src="js/mobiscroll.datetime-2.5.1.js"></script>
+	<script type="text/javascript" src="js/mobiscroll.datetime-2.5.1-zh.js"></script>
+	<script src="js/miuisecend.js" type="text/javascript"></script>
+	<script src="js/miuithird.js" type="text/javascript"></script>
+	<script src="js/common.js" type="text/javascript"></script>
+</head>
+<body class="contentBody">
+	<!-- 这是top title -->
+	<div class="contentTop">
+		<a href="javascript:history.back(-1);"></a>
+		<h1>平安意健险XX险种</h1>
+	</div>
+	<!-- 这是导航栏 -->
+	<section class="contentNav">
+		<div class="contentNavicon">
+			<span class="contentNaviconem contentNavicon01">
+				<img src="images/icon01.png">
+			</span>
+			<span class="contentNaviconem contentNavicon05 contentNavicon05_01">
+				<img src="images/icon_yellow.png">
+			</span>
+			<span class="contentNaviconem contentNavicon02">
+				<img src="images/icon02.png">
+			</span>
+			<span class="contentNaviconem contentNavicon05 contentNavicon05_02">
+				<img src="images/icon_yellow.png">
+			</span>
+			<span class="contentNaviconem contentNavicon03">
+				<img src="images/icon03.png">
+			</span>
+			<span class="contentNaviconem contentNavicon05 contentNavicon05_03 hide">
+				<img src="images/icon_yellow.png">
+			</span>
+			<span class="contentNaviconem contentNavicon04 hide">
+				<img src="images/icon04.png">
+			</span>
+			<img src="images/icon00.png" class="contentNaviconbg">
+		</div>
+		<div class="contentNavText clearfix">
+			<span class="color01 contentNavText01 left">产品信息</span>
+			<span class="color01 contentNavText02 left">投保人信息</span>
+			<span class="color01 contentNavText03 left">被保险人信息</span>
+			<span class="contentNavText04 left">付款</span>
+		</div>
+	</section>
+	<section class="contentBody">
+		<div class="contentTitle">被保人信息<span class="right color01 fsize01" onclick="addPerson()">+ 新增被保人</span></div>
+		<div class="contentBodyOnly" style="margin-top: 0; ">
+			<p>
+				<span class="left cui_spanspan" id="showInsurantName" style="width:80%;overflow:hidden;color:#0079FB;"></span>
+				<span class="right cui_spanright tc cui_posi bgC_FFF"><a href="javascript:revise()">修改</a></span>
+			</p>
+		</div>
+		<table class="contentTableGuarantee fsize02" style="margin-top:0">
+			<tr>
+				<th class="tl" width="10%">
+					<span style="width:14px" class="left"><input type="checkbox" class="checkbox_class left" onclick="greatAll(this.checked)" style="margin-top:0"></span>
+				</th>
+				<th class="tl fsize01" width="90%" style="font-weight:normal">我已阅读并同意<a onclick="javascript:provision();">《适用条款》</a>及<a onclick="javascript:statement();">《投保人声明》</a></th>
+			</tr>
+			<tr>
+				<td colspan="2" style="font-weight:bold">
+					总计保费 <span id="lastAcount">20</span> 元
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div id="error" class="color03"></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="button" class="input_submitDisabled" disabled id="goToPay" onclick="goPay()" value="支付" />
+				</td>
+			</tr>
+		</table>
+	</section>
+	<footer class="allFooter">
+		&copy; 中国平安财产保险股份有限公司
+	</footer>
+	<!-- 声明 -->
+	<div id="statementbu">
+		<div class="statementner">
+			<h3 class="statementitle"><span class="left">投保声明</span><a onclick="closeThis($(this))" class="closeStatement right"></a></h3>
+			<div class="statementContent" id="statementContent">
+				性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据性质是符合发生地方随碟附送发送方师傅说道发生地方为人为恶提味儿天气而武器去大舍大得在线冲值需协助把那个符号军阀割据
+			</div>
+			<div class="tc statemenbutton"><input type="button" value="确定" onclick="closeThis($(this))" class="statemenbutton_class"></div>
+		</div>
+	</div>
+	<form action="" method="post" name="GetThisForm" id="GetThisForm">
+		<input type="hidden" name="account" value="${account}"/>
+		<input type="hidden" name="productCode" value="00820"/>
+		<input type="hidden" name="productName" value="${productName}"/>
+		<input type="hidden" name="insuranceBeginTime" value="${insuranceBeginTime}"/>
+		<input type="hidden" name="insuranceEndTime" value="${insuranceEndTime}"/>
+		<input type="hidden" name="oldDigestTexts" value="${oldDigestTexts}"/>
+		<input type="hidden" name="startDate" value="${startDate}"/>
+		<input type="hidden" name="endDate" value="${endDate}"/>
+		<input type="hidden" name="applicantCertType" value="01"/>
+		<input type="hidden" name="applicantCertNo" value="430000199011080608"/>
+		<input type="hidden" name="applicantName" value="张三"/>
+		<input type="hidden" name="telephone" value="${telephone}"/>
+		<input type="hidden" name="applicantEmail" value="${applicantEmail}"/>
+		<input type="hidden" name="insuranceMonth" value="${insuranceMonth}"/>
+		<input type="hidden" name="insuranceDay" value="${insuranceDay}"/>
+		<input type="hidden" name="topAcceptInsurAge" value="80"/>
+        <input type="hidden" name="leastAcceptInsurAge" value="0"/>
+        <input type="hidden" name="myRadio" value="${myRadio }"/>
+        <input type="hidden" name="outgoingPurpose" value="${outgoingPurpose }"/>
+        <input type="hidden" name="applicantNamePY" value="ZHANGSHAN"/>
+        <input type="hidden" name="applicantBirthday" value="1990-11-08"/>
+        <input type="hidden" name="applicantSex" value="M"/>
+        <input type="hidden" name="amount" value="20"/>
+        <!--  赋值过来   -->
+ 		<input name="insurantName" id="firstInsurantName" type="hidden" value="" />
+ 		<input name="insurantNamePY" id="firstInsurantNamePY" type="hidden" value="" />
+ 		<input name="insurantCertType" id="firstInsurantCertType" type="hidden" value="" />
+ 		<input name="insurantCertNo" id="firstInsurantCertNo" type="hidden" value="" />
+ 		<input name="insurantCertBirthday" id="firstInsurantCertBirthday" type="hidden" value="" />
+ 		<input name="insurantCertSex" id="firstInsurantCertSex" type="hidden" value="" />
+ 		<input name="relationshipWithInsured" id="firstRelationshipWithInsured" type="hidden" value="1" />
+ 		
+
+	</form>
+	<script>
+		$(function(){
+			//  返回按钮的大小设置
+			var ah = $('.contentTop a').height();
+			$('.contentTop a').width(ah);
+
+			//  导航图标的大小设置
+			var bw = $('.contentNaviconbg').width();
+			var OriginalW = 1151;
+			var OriginalH = 64;
+
+			var bh = (bw/OriginalW) * OriginalH;
+			//alert(bh)
+			$('.contentNaviconbg').height(bh);
+
+			// 图标的大小
+			$('.contentNavicon01').width(bh);
+			$('.contentNavicon01').height(bh);
+			$('.contentNavicon02').width(bh);
+			$('.contentNavicon02').height(bh);
+			$('.contentNavicon03').width(bh);
+			$('.contentNavicon03').height(bh);
+			$('.contentNavicon04').width(bh);
+			$('.contentNavicon04').height(bh);
+			//alert(bw)
+
+			var OriginalYw = 299; //横线的原始长度
+			var OriginalYh = 13;
+			var yw = (bw/OriginalW) * OriginalYw;
+			var yh = (bw/OriginalW) * OriginalYh;
+			$('.contentNavicon05').width(yw);
+			$('.contentNavicon05').height(yh);
+
+			var mt = (bh - yh) / 2;
+
+			$('.contentNavicon05').css('top',mt);
+
+			var dw = $(document).width();
+			var ml = dw * 0.05;
+			var c51 = ml + bh;//第一个横线
+			var c2l = ml + bh + yw;//第二个圆
+			var c53 = ml + bh + yw + bh;//第二个横线
+			var c3l = ml + bh + yw + bh + yw;//第三个圆
+			var c54 = ml + bh + yw + bh + yw + bh;//第三个横线
+			var c4l = ml + bh + yw + bh + yw + bh + yw;//第四个圆
+			$('.contentNavicon05_01').css('left',c51);
+			$('.contentNavicon02').css('left',c2l);
+			$('.contentNavicon05_02').css('left',c53);
+			$('.contentNavicon03').css('left',c3l);
+			$('.contentNavicon05_03').css('left',c54);
+			$('.contentNavicon04').css('left',c4l);
+
+			// 文字
+			var fz = (12 / 320) * dw;
+			var lh = fz + 10;
+			$('.contentNavText').css('fontSize',fz);
+			$('.contentNavText').css('height',lh);
+			$('.contentNavText').css('lineHeight',lh + 'px');
+			var t1 = ml - fz;
+			var t2 = ml*2;
+			var t3 = ml*1.6;
+			var t4 = ml*2.7;
+			$('.contentNavText01').css('marginLeft',t1);
+			$('.contentNavText02').css('marginLeft',t2);
+			$('.contentNavText03').css('marginLeft',t3);
+			$('.contentNavText04').css('marginLeft',t4);
+			
+			//向右的图标
+			var sl = (40 - 14) / 2;
+			$('.cui_spanright img').css('width',14);
+			$('.cui_spanright img').css('marginTop',sl);
+
+			$('#showInsurantName').text($('input[name=applicantName]').val());
+			$('input[name=insurantName]').val($('input[name=applicantName]').val());
+			$('input[name=insurantNamePY]').val($('input[name=applicantNamePY]').val());
+			$('input[name=insurantCertType]').val($('input[name=applicantCertType]').val());
+			$('input[name=insurantCertNo]').val($('input[name=applicantCertNo]').val());
+			$('input[name=insurantCertBirthday]').val($('input[name=applicantBirthday]').val());
+			$('input[name=insurantCertSex]').val($('input[name=applicantSex]').val());
+			$('input[name=relationshipWithInsured]').val($('input[name=relationshipWithInsured]').val());
+
+		});
+	</script>
+</body>
+</html>
