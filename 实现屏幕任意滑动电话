@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<title>test</title>
+	<meta name="Android" content="Martin_Cui">
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		#advisoryBox{
+			width:55px;
+			height:55px;
+			position: absolute;
+			bottom:0;
+			right:0;
+			z-index:100001;
+		}
+		#advisoryBox a{
+			display:block;
+			width:100%;
+			height:100%;
+			text-indent: -9999px;
+			background:url(images/icon_01.png) no-repeat;
+			background-size: 100% 100%;
+		}
+	</style>
+	<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="advisoryBox">
+		<a href="tel:95511" id="advisory">咨询</a>
+	</div>
+	<div style="width:300px;height:40px;line-height:20px;">
+<!-- 		<span style="width:100px;float:left;height:20px;">x : </span> -->
+		<span style="width:300px;float:left;height:20px;" id="xzuobiao"></span>
+<!-- 		<span style="width:100px;float:left;height:20px;">y : </span> -->
+		<span style="width:300px;float:left;height:20px;" id="yzuobiao"></span>
+	</div>
+	<script type="text/javascript">
+	 	var Cwidth = $(window).width();// 获取屏幕的宽度
+	 	var Cheight = $(window).height();// 获取屏幕的高度
+	 	//alert(Cwidth+'-'+Cheight)
+	 	//alert($('#advisoryBox').css('bottom'));
+	 	var string,bBottom,bRight;
+	 	
+	 	//alert(bRight);
+	 	var bW = $('#advisoryBox').width();// 获取圆点的宽度
+		var bH = $('#advisoryBox').height();// 获取圆点的高度
+
+		var advisoryBox = {
+        touch:('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
+        advisoryBox : document.getElementById('advisoryBox'),
+        events : {
+            advisoryBox:this.advisoryBox,
+            handleEvent:function(event){
+                var self = this;     //this指events对象
+                if(event.type == 'touchstart'){
+                    self.start(event);
+                }else if(event.type == 'touchmove'){
+                    self.move(event);
+                }else if(event.type == 'touchend'){
+                    self.end(event);
+                }
+            },
+            start : function(event){
+                var touch = event.targetTouches[0];
+                string = $('#advisoryBox').css('bottom');// 获取圆点的bottom
+                bBottom = deletePX(string);
+                //alert(bBottom);
+                string = $('#advisoryBox').css('right');// 获取圆点的right
+                bRight = deletePX(string);
+                var advisoryBoxL = Cwidth - bRight - bW;
+                var advisoryBoxB = Cheight - bBottom - bH;
+                //alert(advisoryBoxL +'-'+ advisoryBoxB);
+                var sx = touch.pageX;
+                var sy = touch.pageY;
+                startPos = { //手指在圆点范围内赋值坐标
+                    x:advisoryBoxL, //手指在圆点范围坐标x
+                    y:advisoryBoxB,//手指在圆点范围坐标y
+                    time:+new Date,
+                    Displacex : sx - advisoryBoxL,
+                    Displacey : sy - advisoryBoxB
+                };
+                //alert('x : ' + startPos.Displacex + ',y : ' + startPos.Displacey);
+                isScrolling = 0;
+              	//alert( document.getElementById('advisoryBox').innerHTML);
+                document.getElementById('advisoryBox').addEventListener('touchmove',this,false);
+                document.getElementById('advisoryBox').addEventListener('touchend',this,false);
+                
+            },
+            move : function(event){
+                if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+                var touch = event.targetTouches[0];
+                // var lastMovePosiindex = $('#lastMovePosi').val();
+                // var lastMovePosi = parseInt(lastMovePosiindex);
+                endPos = {
+                    x:touch.pageX,
+                    y:touch.pageY
+                };
+               	// alert(endPos.y);
+                isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1:0;    //isScrolling为1时，表示纵向滑动，0为横向滑动
+                
+                event.preventDefault();      //阻止触摸事件的默认行为，即阻止滚屏
+
+               	var endBoxX = endPos.x - startPos.Displacex;
+               	var endBoxY = endPos.y - startPos.Displacey;
+               	var bRightZ = Cwidth - endBoxX - bW;
+               	var bBottomZ = Cheight - endBoxY - bH;
+                definitPos = {
+                    x : endBoxX,
+                    y : endBoxY,
+                    bRightZ : bRightZ,
+                    bBottomZ : bBottomZ
+                }
+               	if(endPos.y <= startPos.Displacey && endPos.x > 0 && endPos.x < Cwidth){//当碰到屏幕上方的时候
+               		
+               		document.getElementById('advisoryBox').style.bottom = (Cheight-bH) + 'px';
+                	document.getElementById('advisoryBox').style.right = bRightZ + 'px';
+               	
+               	}else if(endPos.y <= startPos.Displacey && endPos.x <= 0){////当碰到屏幕上方的时候并且在左边顶部
+               		
+               		document.getElementById('advisoryBox').style.bottom = (Cheight-bH) + 'px';
+                	document.getElementById('advisoryBox').style.right = (Cwidth-bW) + 'px';
+               	
+               	}else if(endPos.y <= startPos.Displacey && endPos.x >= Cwidth){//当碰到屏幕上方的时候并且在右边顶部
+               		
+               		document.getElementById('advisoryBox').style.bottom = (Cheight-bH) + 'px';
+                	document.getElementById('advisoryBox').style.right = 0 + 'px';
+               	
+               	}else if(endPos.y >= Cheight-startPos.Displacey && endPos.x > 0 && endPos.x < Cwidth){//当碰到屏幕下方的时候
+               		
+               		document.getElementById('advisoryBox').style.bottom = 0 + 'px';
+                	document.getElementById('advisoryBox').style.right = bRightZ + 'px';
+               	
+               	}else if(endPos.y >= Cheight-startPos.Displacey && endPos.x <= 0){//当碰到屏幕上方的时候并且在下方左边顶部
+               		
+               		document.getElementById('advisoryBox').style.bottom = 0 + 'px';
+                	document.getElementById('advisoryBox').style.right = (Cwidth-bW) + 'px';
+               	
+               	}else if(endPos.y >= Cheight-startPos.Displacey && endPos.x >= Cwidth){//当碰到屏幕上方的时候并且在下方右边顶部
+               		
+               		document.getElementById('advisoryBox').style.bottom = 0 + 'px';
+                	document.getElementById('advisoryBox').style.right = 0 + 'px';
+               	
+               	}else if(endPos.x <= startPos.Displacex && endPos.y > 0 && endPos.y < Cheight){//左边中间
+					
+					         document.getElementById('advisoryBox').style.bottom = bBottomZ + 'px';
+                	document.getElementById('advisoryBox').style.right = (Cwidth-bW) + 'px';
+               	
+               	}else if(endPos.x <= startPos.Displacex && endPos.y <= 0){//左上顶点
+               		
+               		document.getElementById('advisoryBox').style.bottom = (Cheight-bH) + 'px';
+                	document.getElementById('advisoryBox').style.right = (Cwidth-bW) + 'px';
+               	
+               	}else if(endPos.x <= startPos.Displacex && endPos.y >= Cheight){//左下顶点
+               		
+               		document.getElementById('advisoryBox').style.bottom = 0 + 'px';
+                	document.getElementById('advisoryBox').style.right = (Cwidth-bW) + 'px';
+               	
+               	}else if(endPos.x >= Cwidth-startPos.Displacex && endPos.y > 0 && endPos.y < Cheight){//右边中间
+               		
+               		document.getElementById('advisoryBox').style.bottom = bBottomZ + 'px';
+                	document.getElementById('advisoryBox').style.right = 0 + 'px';
+               	
+               	}else if(endPos.x >= Cwidth-startPos.Displacex && endPos.y <= 0){//右上顶点
+               		
+               		document.getElementById('advisoryBox').style.bottom = (Cheight-bH) + 'px';
+                	document.getElementById('advisoryBox').style.right = 0 + 'px';
+               	
+               	}else if(endPos.x >= Cwidth-startPos.Displacex && endPos.y >= Cheight){//右下顶点
+               		
+               		document.getElementById('advisoryBox').style.bottom = 0 + 'px';
+                	document.getElementById('advisoryBox').style.right = 0 + 'px';
+               	
+               	}else{
+               		
+               		document.getElementById('advisoryBox').style.bottom = bBottomZ + 'px';
+               		document.getElementById('advisoryBox').style.right = bRightZ + 'px';
+               	
+               	}
+               	//alert('x : ' + endBoxX + ',y : ' + endBoxY);
+                //document.getElementById('advisoryBox').style.bottom = -endPos.y + 'px';
+                
+                //$('#xzuobiao').text('endPos.x : '+endPos.x+'bRightZ : '+bRightZ);
+                //$('#yzuobiao').text('endPos.y : '+endPos.y+'bBottomZ : '+bBottomZ);
+            },
+            end : function(event){
+                var duration = +new Date - startPos.time;
+                //var mobileHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                if(definitPos.x < Cwidth/2 && definitPos.y > 90 && definitPos.y <= Cheight-90){
+                    
+                    document.getElementById('advisoryBox').style.bottom = definitPos.bBottomZ + 'px';
+                    document.getElementById('advisoryBox').style.right = (Cwidth-bW) + 'px';
+                
+                }else if(definitPos.x < Cwidth/2 && definitPos.y <= 90){
+                    
+                    document.getElementById('advisoryBox').style.bottom = (Cheight-bH) + 'px';
+                    document.getElementById('advisoryBox').style.right = (Cwidth-bW) + 'px';
+                
+                }else if(definitPos.x < Cwidth/2 && definitPos.y > (Cheight-90)){
+                    
+                    document.getElementById('advisoryBox').style.bottom = 0 + 'px';
+                    document.getElementById('advisoryBox').style.right = (Cwidth-bW) + 'px';
+                
+                }else if(definitPos.x >= Cwidth/2 && definitPos.y > 90 && definitPos.y <= Cheight-90){
+                   
+                    document.getElementById('advisoryBox').style.bottom = definitPos.bBottomZ + 'px';
+                    document.getElementById('advisoryBox').style.right = 0 + 'px';
+                
+                }else if(definitPos.x >= Cwidth/2 && definitPos.y <= 90){
+                    
+                    document.getElementById('advisoryBox').style.bottom = (Cheight-bH) + 'px';
+                    document.getElementById('advisoryBox').style.right = 0 + 'px';
+                
+                }else if(definitPos.x >= Cwidth/2 && definitPos.y <= (Cheight-90)){
+                    
+                    document.getElementById('advisoryBox').style.bottom = 0 + 'px';
+                    document.getElementById('advisoryBox').style.right = 0 + 'px';
+                
+                }
+                
+                //解绑事件
+                document.getElementById('advisoryBox').removeEventListener('touchmove',this,false);
+                document.getElementById('advisoryBox').removeEventListener('touchend',this,false);
+               
+            }
+        },
+        init:function(){
+            var self = this;     //this指advisoryBox对象
+            if(!!self.touch) self.advisoryBox.addEventListener('touchstart',self.events,false);
+        }
+    };
+    // 截取字符串去除px
+    function deletePX(string){
+    	string = string.split('px');
+    	string = string[0];
+    	return string;
+    }
+
+    advisoryBox.init();
+
+	</script>
+</body>
+</html>
