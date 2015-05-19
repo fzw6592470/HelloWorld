@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<title>test001</title>
+	<meta name="Android" content="Martin_Cui">
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+</head>
+<body>
+	<script TYPE="text/javascript">
+		var startDate = '2015-02-01';
+		var endDate = '2016-01-31';
+		function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2006-12-18格式  
+	        var  aDate,  oDate1,  oDate2,  iDays;
+	        aDate  =  sDate1.split("-");
+	        oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);//转换为12-18-2006格式  
+	        aDate  =  sDate2.split("-");
+	        oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);
+	        iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24);//把相差的毫秒数转换为天数  
+	        return  iDays;
+	   	}
+	   	var selectDay = DateDiff(startDate,endDate);
+	   	window.console.log(selectDay);
+	   	var strDate = '2016-02-04';
+	   	window.console.log(strDate.substr(0,4));
+	   	window.console.log(strDate.substr(5,2));
+	   	window.console.log(strDate.substr(8,2));
+	   	var eDate = new Date(new Date(strDate).getTime() + selectDay*24*60*60*1000);
+	   	//window.console.log(eDate.getFullYear());
+		//window.console.log(eDate.getMonth()+1);
+	   	//window.console.log(eDate.getDate());
+	   	
+
+	   	var otherDay = DateDiff(strDate,startDate);
+	   	//window.console.log(otherDay);
+	   	var otherDate = new Date(new Date(endDate).getTime() + otherDay*24*60*60*1000);
+	   	//window.console.log(otherDate.getFullYear());
+		//window.console.log(otherDate.getMonth()+1);
+	   //	window.console.log(otherDate.getDate());
+	   
+	</script>
+</body>
+</html>
