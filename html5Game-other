@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="vewport" content="width=device-width,user-scalable=no,initial-scale=1.0" />
+		<title>This is Demo Of Games</title>
+		<!-- <link href="css/index.css" rel="stylesheet" type="text/css" /> -->
+		<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+		<style>
+			body{
+				margin:0;
+				padding:0;
+			}
+			canvas{
+				width:400px;
+				height:300px;
+				margin:0 auto;
+				display: block;
+			}
+			form{
+				width:850px;
+				height:40px;
+				margin:20px auto;
+			}
+			button{
+				padding: 20px;
+				margin-left: auto;
+				margin-right: auto;
+				width:120px;
+				height:60px;
+				display: block
+			}
+			input:valid{
+				background-color: green;
+			}
+			input:invalid{
+				background-color: red;
+			}
+		</style>
+	</head>
+	<body onload="init()" >
+		<canvas id="myGame" name="myGame" width="400" height="300">
+			如果你能看见这个字，那么你的浏览器不支持HTML5，请用谷歌或IE9以上浏览器打开，非常感谢！
+		</canvas>
+		<form name="f" id="f" onSubmit="return change();">
+			Vertical : <input name="vertical" value="8" min="-10" max="10" type="number" />
+			Horizontal : <input name="horizontal" value="4" type="number" min="-10" max="10" />
+			Vertical : <input name="vertical" value="6" min="-10" max="10" type="number" />
+			Horizontal : <input name="horizontal" value="6" type="number" min="-10" max="10" />
+			Vertical : <input name="vertical" value="2" min="-10" max="10" type="number" />
+			Horizontal : <input name="horizontal" value="8" type="number" min="-10" max="10" />
+			Vertical : <input name="vertical" value="10" min="-10" max="10" type="number" />
+			Horizontal : <input name="horizontal" value="1" type="number" min="-10" max="10" />
+			<input type="submit" value="set" />
+		</form>
+		
+	</body>
+	<script type="text/javascript">
+		var boxx = 20;
+		var boxy = 30;
+		var boxwidth = 350;
+		var boxheight = 250;
+		var ballrad = 20;
+		var boxboundx = boxwidth + boxx - ballrad;
+		var boxboundy = boxheight + boxy - ballrad;
+		var inboxboundx = boxx + ballrad;
+		var inboxboundy = boxy + ballrad;
+		var ballx = [50,100,200,350];
+		var bally = [60,120,70,100];
+		var ballvx = [4,4,5,6];
+		var ballvy = [8,8,8,8];
+		var imglength = 4;
+		var duleisi = [];
+		for (var i = 0; i < imglength; i++) {
+			duleisi[i] =  'img'+i;
+			duleisi[i] = new Image();
+			duleisi[i].src = "images/"+i+".png";
+		};
+		var ctx;
+		var grad;
+		var color;
+		var hur = [
+					[255,0,0],
+					[255,255,0],
+					[0,255,0],
+					[0,255,255],
+					[0,0,255],
+					[255,0,255]
+				];
+		function init(){
+			var h;
+			ctx = document.getElementById('myGame').getContext('2d');
+			grad = ctx.createLinearGradient(boxx,boxy,boxx+boxwidth,boxy+boxheight);
+			for(h=0;h<hur.length;h++){
+				color = "rgb("+hur[h][0]+","+hur[h][1]+","+hur[h][2]+")";
+				grad.addColorStop(h*1/6,color);
+			}
+			ctx.fillStyle = grad;
+			ctx.lineWidth = ballrad;
+			moveball();
+			setInterval(moveball,100);
+		}
+		function moveball(){
+			ctx.clearRect(boxx,boxy,boxwidth,boxheight);
+			moveandcheck();
+			for(var i = 0; i < imglength; i++){
+				ctx.drawImage(duleisi[i],ballx[i]-ballrad,bally[i]-ballrad,ballrad*2,ballrad*2);
+			}
+			ctx.fillRect(boxx,boxy,ballrad,boxheight);// left
+			ctx.fillRect(boxx+boxwidth-ballrad,boxy,ballrad,boxheight);//right
+			ctx.fillRect(boxx,boxy,boxwidth,ballrad);//top
+			ctx.fillRect(boxx,boxy+boxheight-ballrad,boxwidth,ballrad);//bottom
+		}
+		function moveandcheck(){
+			for(var m=0;m<imglength;m++){
+				var nball1x = ballx[m] + ballvx[m];
+				var nball1y = bally[m] + ballvy[m];
+				if(nball1x > (boxboundx-ballrad)){
+					ballvx[m] = -ballvx[m]-Math.random()*(m+1);
+					nball1x = boxboundx-ballrad;
+				}
+				if(nball1x < (inboxboundx+ballrad)){
+					nball1x = inboxboundx+ballrad;
+					ballvx[m] = -ballvx[m]-Math.random()*(m+1);
+				}
+				if(nball1y > (boxboundy-ballrad)){
+					nball1y = boxboundy-ballrad;
+					ballvy[m] = -ballvy[m]-Math.random()*(m+1);
+				}
+				if(nball1y < (inboxboundy+ballrad)){
+					nball1y = inboxboundy+ballrad;
+					ballvy[m] = -ballvy[m]-Math.random()*(m+1);
+				}
+				ballx[m] = nball1x;
+				bally[m] = nball1y;
+			}
+		}
+		function change(){
+			for(var n =0;n<imglength;n++){
+				ballvx[n] = Number(document.f.horizontal[n].value);
+				ballvy[n] = Number(document.f.vertical[n].value);
+			}
+			return false;
+		}
+	</script>
+</html>
