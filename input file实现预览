@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<style type="text/css">
+	.add-pic{
+		position: absolute;
+		right: 0px;
+		top: 0px\9;
+		top: 0;
+	}
+	</style>
+</head>
+<body>
+	
+<table>
+	<tr>
+		<td colspan="3">
+			<table cellspacing="0" cellpadding="0" border="0" class="pta-tableMini">
+				<!-- <tr>
+					<td width="30%">
+						<div class="pta-tabeldiv">
+							<img src="" class="pta-tablePhoto" id="ptaFormerPhoto">
+							<input type="hidden" id="ptaInputFormerPhoto" />
+						</div>
+					</td>
+					<td width="30%">
+						<div class="pta-tabeldiv">
+							<img src="" class="pta-tablePhoto" id="ptaCurrentPhoto">
+							<input type="hidden" id="ptaInputCurrentPhoto" />
+						</div>
+					</td>
+					<td width="30%">
+						<div class="pta-tabeldiv">
+							<img src="" class="pta-tablePhoto" id="ptaLicensePhoto">
+							<input type="hidden" id="ptaInputLicensePhoto" onclick="toUpFiles(this)" />
+						</div>
+					</td>
+				</tr>
+				<tr> -->
+				<td style="width:220px;height:110px;background-color:#f1f1f1" id="td1">
+				    <div style="position: relative;">
+				        <img src="images/pic.png" style="width:220px;height:110px" id="fileChecker"/>
+				        <img src="images/add.png" class="add-pic" onclick="eventClick(this,4)" id="opertion"/>
+				         <input type="file" id="upFile" name="myfile_1" style="height:110px;width:234px;position: absolute;height: 30px; width: 30px;z-index: 99;top: 0;right: 0;opacity: 0;filter:alpha(opacity=0)" onchange="toUpFiles(this)"/>
+				    </div>
+				</td>
+				<td style="width:220px;height:110px;background-color:#f1f1f1" id="td2">
+				    <div style="position: relative;">
+				        <img src="images/pic.png" style="width:220px;height:110px" id="fileChecker"/>
+				        <img src="images/add.png" class="add-pic" onclick="eventClick(this,5)" id="opertion"/>
+				        <input type="file" id="upFile" name="myfile_2" style="height:110px;width:234px;position: absolute;height: 30px; width: 30px;z-index: 99;top: 0;right: 0;opacity: 0;filter:alpha(opacity=0)" onchange="toUpFiles(this)"/>
+				       
+				    </div>
+				</td>
+				<td style="width:220px;height:110px;background-color:#f1f1f1" id="td3">
+				    <div style="position: relative;">
+				        <img src="images/pic.png" style="width:220px;height:110px" id="fileChecker"/>
+				        <img src="images/add.png" class="add-pic" onclick="eventClick(this,6)" id="opertion"/>
+				        <input type="file" id="upFile" name="myfile_3" style="height:110px;width:234px;position: absolute;height: 30px; width: 30px;z-index: 99;top: 0;right: 0;opacity: 0;filter:alpha(opacity=0)" onchange="toUpFiles(this)"/>
+				        
+				    </div>
+				</td>
+			</tr>
+				<tr>
+					<td>原投保人身份证</td>
+					<td>新投保人身份证</td>
+					<td>新行驶证</td>
+				</tr>
+			</table>
+			<img src=""   id="tmepic" style="display: none"/>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+	 function toUpFiles(fileInput) {
+		 if(!fileInput){
+			 return;
+		 }
+		 if(!fileInput.value.match(/.jpg|.png|.bmp/i)){
+				alert("图片格式无效");
+				return;
+		 }
+		 var totalSize;
+		 if ((navigator.userAgent.indexOf('MSIE') >= 0) && (navigator.userAgent.indexOf('Opera') < 0))
+		 {
+			var img = document.getElementById('tmepic');
+			img.src=fileInput.value;
+		    totalSize = img.fileSize;
+		    if(compareaSize(totalSize)){
+		    	viewFileIE(fileInput);
+		    }
+		   
+		 }else{
+			     totalSize = fileInput.files[0].size;
+			     
+			     if(compareaSize(totalSize)){
+					 if(fileInput.files[0]){
+						viewFile(fileInput,fileInput.files[0]);
+					 }
+			     }
+				 
+		 }
+		 $(fileInput).css('z-index','-99');
+		 
+	}
+	 var largerSize = 3*1024*1024;
+	 function viewFile(obj,file){
+		 var reader = new FileReader();
+		 $("#"+$(obj).parent().parent().attr("id")+'-name').find("input").val(file.name);
+		 reader.onload = function(evt) {
+			 $(obj).parent().find('#fileChecker').attr("src",evt.target.result);
+			 $(obj).parent().find("#opertion").attr("src",'images/delete.png')
+		}
+		reader.readAsDataURL(file);
+	 }
+	 function viewFileIE(obj){
+		 var arr=obj.value.split('\\');//注split用字符或字符串割 
+		 var my=arr[arr.length-1];//要取图片名称 
+		 $("#"+$(obj).parent().parent().attr("id")+'-name').find("input").val(my);
+		 $(obj).parent().find('#fileChecker').attr("src",obj.value);
+		 $(obj).parent().find('#fileChecker').height(0);
+		 $(obj).parent().find('#fileChecker').width(0);
+		 var div=$('<div id="newPreview"></div>');
+		 $(obj).parent().append(div);
+		 $(obj).parent().find('#newPreview')[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = obj.value;
+         $(obj).parent().find('#newPreview')[0].style.width = "234px";
+         $(obj).parent().find('#newPreview')[0].style.height = "110px";
+		 $(obj).parent().find("#opertion").attr("src",'images/delete.png')
+		 
+	 }
+	 function compareaSize(size){
+		 if(size>largerSize){
+			 alert("单张图片不能大于3M!");
+			 return false;
+		 }
+		 return true;
+	 }
+	 function eventClick(obj,idx){
+		 if(obj.src.indexOf('add.png')!=-1){
+			 //var add = $('<input type="file" id="upFile" name="myfile_'+idx+'" style="height:110px;width:234px;position: absolute;height: 30px; width: 30px;z-index: 99;top: 0;right: 0;opacity: 0;filter:alpha(opacity=0)" onchange="toUpFiles(this)"/>');
+			 //$(obj).parent().append(add);
+		     //add.click();
+		 }
+		 else{
+			 $(obj).parent().find('#opertion').attr("src","images/add.png");
+			 $(obj).parent().find('#fileChecker').attr("src","images/pic.png");
+			 $("#"+$(obj).parent().parent().attr("id")+'-name').find("input").val("");
+			 $(obj).parent().find('#upFile').remove();
+			 var add = $('<input type="file" id="upFile" name="myfile_'+idx+'" style="height:110px;width:234px;position: absolute;height: 30px; width: 30px;z-index: 99;top: 0;right: 0;opacity: 0;filter:alpha(opacity=0)" onchange="toUpFiles(this)"/>');
+			 $(obj).parent().append(add);
+			 $(obj).parent().find('#newPreview').remove();
+			 $(obj).parent().find('#fileChecker').height(110);
+			 $(obj).parent().find('#fileChecker').width(234);
+			 
+		 }
+	 }
+</script>
+</body>
+</html>
