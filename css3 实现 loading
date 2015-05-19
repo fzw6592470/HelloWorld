@@ -1,0 +1,238 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<meta name="format-detection" content="telephone=no"> 
+	<title>bootstrap 开发</title>
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<style type="text/css">
+	.disabled {
+	}
+	.disabled optgroup{
+		font-size: 12px;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		color:#CCCCCC;
+		background-color: #F5F5F5;
+	}
+	.disabled option {
+		padding-left:0px;
+	}
+	.ico-a{
+		color:#333;
+	}
+	.ico-a:hover{
+		color:#4d77c6;
+		text-decoration: none;
+	}
+	
+	:root .ico{
+		background: none;
+		position: relative;
+	}
+	.ico::before,.ico::after,.ico > z,.ico > z::before,.ico > z::after{
+		content : '';
+		position: absolute;
+	}
+	.ico-list{
+		background-position: 0 0; 
+	}
+	a:hover .ico-list,a .ico-list:hover{
+		background-position: -20px 0;
+	}
+	.ico-list::before{
+		width: 2px;height: 2px;padding:3px 0;border-top:2px solid currentColor;
+		border-bottom:2px solid currentColor;top:6px;left:2px;background-color: currentColor;background-clip: content-box;
+	}
+	.ico-list::after{
+		width: 11px;height: 1px;padding:4px 0;border-top:1px solid currentColor;
+		border-bottom:1px solid currentColor;top:7px;left:6px;background-color: currentColor;background-clip: content-box;
+	}
+	.loading{
+		width: 65px;
+		height:65px;
+		margin-top:200px;
+		margin-left:200px;
+		position: relative;
+	}
+	.outline{
+		width: 65px;
+		height:65px;
+		position: absolute;
+		background: url(images/icon-spin-s.png) no-repeat;
+		-webkit-animation : spin 800ms infinite linear;
+		animation : spin 800ms infinite linear;
+	}
+	.inner,.inner2{
+		width: 38px;
+		height:38px;
+		position: absolute;
+		border-radius:40px;
+		overflow: hidden;
+		left:13px;
+		top:13px;
+	}
+	.inner{
+		opacity : 1;
+		background-color:#89abdd;
+		-webkit-animation: second-half-hide 1.6s steps(1, end) infinite;
+		animation: second-half-hide 1.6s steps(1, end) infinite;
+	}
+	.inner2{
+		opacty : 0;
+		background-color:#4b86db;
+		-webkit-animation: second-half-show 1.6s steps(1, end) infinite;
+		animation: second-half-show 1.6s steps(1, end) infinite;
+	}
+	.spiner,.filler,.masker{
+		position: absolute;
+		width: 50%;
+		height: 100%;
+	}
+	.spiner{
+		border-radius: 40px 0 0 40px;
+		background-color:#4b86db;
+		-webkit-transform-origin : right center;
+		transform-origin : right center;
+		-webkit-animation : spin 800ms infinite linear;
+		animation : spin 800ms infinite linear;
+		left:0;
+		top:0;
+	}
+	.filler{
+		border-radius: 0 40px 40px 0;
+		background-color:#4b86db;
+		-webkit-animation : second-half-hide 800ms steps(1, end) infinite;
+		animation : second-half-hide 800ms steps(1, end) infinite;
+		left:50%;
+		top:0;
+		opacity: 1
+	}
+	.masker{
+		border-radius: 40px 0 0 40px;
+		background-color:#89abdd;
+		-webkit-animation : second-half-show 800ms steps(1, end) infinite;
+		animation : second-half-show 800ms steps(1, end) infinite;
+		left:0;
+		top:0;
+		opacity: 0
+	}
+	.inner2 .spiner,.inner2 .filler{
+		background-color: #89abdd;
+	}
+	.inner2 .masker{
+		background-color: #4b86db;
+	}
+	@-webkit-keyframes spin{
+		0%{
+			-webkit-transform : rotate(360deg);
+			}
+		100%{
+			-webkit-transform : rotate(0deg);
+		}
+	}
+	@keyframes spin {
+	  0%   { 
+	  	transform: rotate(360deg); 
+	  }
+	  100% { 
+	  	transform: rotate(0deg); 
+	  }
+	}
+	@-webkit-keyframes second-half-hide {
+	  0%   { 
+	  	opacity: 1;
+	  }
+	  50%,100% { 
+	  	opacity: 0;
+	  }
+	}
+	@-webkit-keyframes second-half-show {
+	  0%   { 
+	  	opacity: 0;
+	  }
+	  50%,100% { 
+	  	opacity: 1;
+	  }
+	}
+	@keyframes second-half-hide {
+	  0%   { 
+	  	opacity: 1;
+	  }
+	  50%,100% { 
+	  	opacity: 0;
+	  }
+	}
+	@keyframes second-half-show {
+	  0%   { 
+	  	opacity: 0;
+	  }
+	  50%,100% { 
+	  	opacity: 1;
+	  }
+	}
+	</style>
+</head>
+<body>
+	
+	<a href="javascript:;" class="ico-a"><i class="ico ico-list"></i></a>
+	
+
+	<div class="loading">
+		<div class="outline"></div>
+		<div class="inner">
+			<div class="spiner"></div>
+			<div class="filler"></div>
+			<div class="masker"></div>
+		</div>
+		<div class="inner2">
+			<div class="spiner"></div>
+			<div class="filler"></div>
+			<div class="masker"></div>
+		</div>
+	</div>
+	<!-- <select name="carCos" class="disabled">
+		<optgroup label="American"></optgroup>
+		<option value="General Motors">General Motors</option>
+		<option value="Ford">Ford Motor Company</option>
+		<option value="Chrysler">DaimlerChrysler</option>
+		<optgroup label="Japanese"> </optgroup>
+	</select> -->
+	<!-- <span>2015</span><span>-05</span><span>-15</span>&nbsp;&nbsp;<span>24时</span><br />
+	<br />
+
+	<br /><br /><br />
+	<br />
+	<a href="tel:95511">95511</a>
+	<div isimageuploader="true" data-type="0" id="imageUp_0">
+		<div class="uploaderContent" style="background-image: url(wapPhotoUpNew/images/addPhoto.png);background-repeat: no-repeat;background-position: center;background-size: auto;">
+			<label class="uploaderLabel" style="opacity:0;">invisible</label>
+		</div>
+		<input id="newAppFile0" name="newAppFile" class="uploaderfile" type="file"/>
+		<input type="hidden" id="iName"/>
+		<img src="" id="imagForFile" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:1;display:none" onclick="changeImgFor(this)">
+		<div class="uploaderContentover">
+			<img src="wapPhotoUpNew/images/3-2.png" style="display:none;" id="upLoadIconSuccess"/>
+			<img src="wapPhotoUpNew/images/3.png" style="display:none;" id="upLoadIconError"/>
+		</div>
+	</div>  -->
+<script type="text/javascript">
+	/*var nowDate = new Date();
+	var nowDateNext = new Date(new Date().getTime() + 1*24*60*60*1000);
+	var nowDateYear = nowDateNext.getFullYear();
+	var nowDateMonth = handleStr(nowDateNext.getMonth()+1);
+	var nowDateDay = handleStr(nowDateNext.getDate());
+	var nowDateData = nowDateYear+'-'+nowDateMonth+'-'+nowDateDay;
+		//new Date(new Date(date).getTime() + num*24*60*60*1000);
+	alert(nowDateData)
+	// 日期格式化
+	function handleStr(str){
+		var handledStr = str < 10 ? ('0') + str : str;
+		return handledStr;
+	}*/
+</script>
+</body>	
+</html>
