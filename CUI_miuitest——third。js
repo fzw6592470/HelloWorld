@@ -1,0 +1,583 @@
+/*
+*	JS DOCUMENT
+*	By Martin Cui At 2015-02-02 09:14:00
+*/
+var count = 1;
+var isClickAddPersonFlag = false;
+//新增被保人
+function addPerson(){
+	var isClickAddPersonFlag = true;
+	if(count > 4){
+		$('#error').text('被保险人不能超过4个');
+		return false;
+	}
+	$('#error').text("");
+	//判断是否存在本人关系
+	var guanxi = document.getElementsByName('relationshipWithInsured');
+	/*var 
+	for(var i = 0; i<guanxi.length; i++){
+
+	}
+	alert(guanxi)*/
+	var recount = findShip(guanxi);
+	//alert(recount);
+	showAcount(1,recount);
+
+}
+function showAcount(m,n){
+	if(m == 1){
+		if(n == 1){
+			$.vPopWin({
+				"tit" : "新增被保险人信息",
+				"winID" : "alertVpopWin",
+				"content" : '<div>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">家</span><span style="width:14px" class="left">庭</span><span style="width:14px" class="left">关</span><span style="width:14px" class="left">系</span></span>'
+				+'<select class="select_class" onchange="changerelationship($(this))" id="relationshipWithInsuredVpopWin">'
+				+'<option value="00" selected="selected">请选择</option>'
+				+'<option value="22">父母</option>'
+				+'<option value="I">子女</option>'
+				+'<option value="2">配偶</option>'
+				+'<option value="9">其他</option>'
+				+'</select><span class="right cui_spanright tc cui_posi bgC_FFF"></span></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">姓</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">名</span></span><input class="left input_class" type="text" id="insurantNameVpopWin" placeholder="请输入投保人姓名"></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">证</span><span style="width:14px" class="left">件</span><span style="width:14px" class="left">类</span><span style="width:14px" class="left">型</span></span>'
+				+'<select class="select_class" onchange="changeType($(this).val(),'
+				+ "'VpopWin'"
+				+',$(this))" id="insurantCertTypeVpopWin">'
+				+'<option value="01">身份证</option>'
+				+'<option value="02">护照</option>'
+				+'<option value="03">军官证</option>'
+				+'<option value="05">驾驶证</option>'
+				+'<option value="06">港澳回乡证或台胞证</option>'
+				+'<option value="99">其他</option>'
+				+'</select><span class="right cui_spanright tc cui_posi bgC_FFF"></span></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">证</span><span style="width:14px" class="left">件</span><span style="width:14px" class="left">号</span><span style="width:14px" class="left">码</span></span>'
+				+'<input class="left input_class" type="tel" id="for-paperNoVpopWin" maxlength="18" placeholder="证件号码中X用*号代替" onchange="ConversionSymbols(this)">'
+				+'<input class="left input_class" type="text" id="for-paperNo_otherVpopWin" maxlength="18" placeholder="请输入证件号码" disabled style="display: none;">'
+				+'</p>'
+				+'<p id="birthdaybox" style="display: none;"><span class="left cui_spanspan"><span style="width:14px" class="left">出</span><span style="width:14px" class="left">生</span><span style="width:14px" class="left">年</span><span style="width:14px" class="left">龄</span></span><input class="left input_class" type="text" id="birthday" readonly></p>'
+				+'<p id="sexbox" style="display: none;"><span class="left cui_spanspan"><span style="width:14px" class="left">性</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">别</span></span><span class="left cui_spancenter"><input class="left radio_class" type="radio" id="nan" name="sex" checked value="M" onclick="copyVal($(this).val(),$('
+				+"'#insurantCertSexVpopWin'"
+				+'))"><label class="left" style="margin-left:10px;">男</label><input class="left radio_class" type="radio" id="nv" name="sex" value="F" onclick="copyVal($(this).val(),$('
+				+"'#insurantCertSexVpopWin'"
+				+'))" style="margin-left:10px;"><label class="left" style="margin-left:10px;">女</label></span><input class="left input_class" type="hidden" id="insurantCertSexVpopWin" value="M"></p>'
+				+'<p><span class="cui_spancenter" style="width:100%;color:red;text-align:center;display: block;" id="vpopWinError"></span></p>'
+				+'<p><span class="cui_spancenter left tc"><input class="button_class" id="cancelVpopWin" type="button" value="取消"></span><span class="cui_spancenter left tc"><input class="button_class" id="commfirVpopWin" type="button" value="确定"></span></p>'
+			});
+			$("#insurantCertTypeVpopWin").children().each(function() {
+				if ($(this).val() == $("#applicantCertType").val()) {
+					$(this).attr("selected", "selected");
+				}
+			});
+			if ($("#insurantCertTypeVpopWin").val() == "01") {
+				$("#for-paperNoVpopWin").show();
+				$("#for-paperNoVpopWin").removeAttr("disabled");
+				$("#for-paperNo_otherVpopWin").hide();
+				$("#for-paperNo_otherVpopWin").attr("disabled", "disabled");
+				$("#for-paperNoVpopWin").val($("#for-paperNo1").val());
+			} else {
+				$("#for-paperNo_otherVpopWin").show();
+				$("#for-paperNoVpopWin").hide();
+				$("#for-paperNo_otherVpopWin").removeAttr("disabled");
+				$("#for-paperNoVpopWin").attr("disabled", "disabled");
+				$("#for-paperNo_otherVpopWin").val($("#for-paperNo_other1").val());
+			}
+		}else{
+			$.vPopWin({
+				"tit" : "新增被保险人信息",
+				"winID" : "alertVpopWin",
+				"content" : '<div>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">家</span><span style="width:14px" class="left">庭</span><span style="width:14px" class="left">关</span><span style="width:14px" class="left">系</span></span>'
+				+'<select class="select_class" onchange="changerelationship($(this))" id="relationshipWithInsuredVpopWin">'
+				+'<option value="00" selected="selected">请选择</option>'
+				+'<option value="1">本人</option>'
+				+'<option value="22">父母</option>'
+				+'<option value="I">子女</option>'
+				+'<option value="2">配偶</option>'
+				+'<option value="9">其他</option>'
+				+'</select><span class="right cui_spanright tc cui_posi bgC_FFF"></span></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">姓</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">名</span></span><input class="left input_class" type="text" id="insurantNameVpopWin" placeholder="请输入投保人姓名"></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">证</span><span style="width:14px" class="left">件</span><span style="width:14px" class="left">类</span><span style="width:14px" class="left">型</span></span>'
+				+'<select class="select_class" onchange="changeType($(this).val(),'
+				+ "'VpopWin'"
+				+',$(this))" id="insurantCertTypeVpopWin">'
+				+'<option value="01">身份证</option>'
+				+'<option value="02">护照</option>'
+				+'<option value="03">军官证</option>'
+				+'<option value="05">驾驶证</option>'
+				+'<option value="06">港澳回乡证或台胞证</option>'
+				+'<option value="99">其他</option>'
+				+'</select><span class="right cui_spanright tc cui_posi bgC_FFF"></span></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">证</span><span style="width:14px" class="left">件</span><span style="width:14px" class="left">号</span><span style="width:14px" class="left">码</span></span>'
+				+'<input class="left input_class" type="tel" id="for-paperNoVpopWin" maxlength="18" placeholder="证件号码中X用*号代替" onchange="ConversionSymbols(this)">'
+				+'<input class="left input_class" type="text" id="for-paperNo_otherVpopWin" maxlength="18" placeholder="请输入证件号码" disabled style="display: none;">'
+				+'</p>'
+				+'<p id="birthdaybox" style="display: none;"><span class="left cui_spanspan"><span style="width:14px" class="left">出</span><span style="width:14px" class="left">生</span><span style="width:14px" class="left">年</span><span style="width:14px" class="left">龄</span></span><input class="left input_class" type="text" id="birthday" readonly></p>'
+				+'<p id="sexbox" style="display: none;"><span class="left cui_spanspan"><span style="width:14px" class="left">性</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">别</span></span><span class="left cui_spancenter"><input class="left radio_class" type="radio" id="nan" name="sex" checked value="M" onclick="copyVal($(this).val(),$('
+				+"'#insurantCertSexVpopWin'"
+				+'))"><label class="left" style="margin-left:10px;">男</label><input class="left radio_class" type="radio" id="nv" name="sex" value="F" onclick="copyVal($(this).val(),$('
+				+"'#insurantCertSexVpopWin'"
+				+'))" style="margin-left:10px;"><label class="left" style="margin-left:10px;">女</label></span><input class="left input_class" type="hidden" id="insurantCertSexVpopWin" value="M"></p>'
+				+'<p><span class="cui_spancenter" style="width:100%;color:red;text-align:center;display: block;" id="vpopWinError"></span></p>'
+				+'<p><span class="cui_spancenter left tc"><input class="button_class" id="cancelVpopWin" type="button" value="取消"></span><span class="cui_spancenter left tc"><input class="button_class" id="commfirVpopWin" type="button" value="确定"></span></p>'
+			});
+		}
+		$('#commfirVpopWin').click(function(){
+			$('#vpopWinError').text('');
+			if($('#insurantNameVpopWin').val() == ''){
+				$('#vpopWinError').text('投保人姓名不能为空！');
+				return false;
+			}
+			if ($("#insurantCertTypeVpopWin").val() == "01" && $("#for-paperNoVpopWin").val() == "") {
+				$('#vpopWinError').text('投保人证件号码不能为空！');
+				return false;
+			}
+			if ($("#insurantCertTypeVpopWin").val() != "01" && $("#for-paperNo_otherVpopWin").val() == "") {
+				$('#vpopWinError').text('投保人证件号码不能为空！');
+				return false;
+			}
+			if ($("#insurantCertTypeVpopWin").val() == "01" && $("#for-paperNoVpopWin").val() != "") {
+				if (!valiateShenfenz($("#for-paperNoVpopWin").val(), '1', 'vpopWinError')) {
+					//$('#error').text('投保人身份证格式不合规范！');
+					return false;
+				}
+			}
+			if ($("#insurantCertTypeVpopWin").val() != "01" && $("#for-paperNo_otherVpopWin").val() != "") {
+				if (!valiateBirthday($("#insurantCertSexVpopWin").val(), '1', 'vpopWinError')) {
+					//$('#error').text('投保人出生日期！');
+					return false;
+				}
+			}
+			if ($("#insurantCertTypeVpopWin").val() == "01") {
+				var zjhaoma = $("#for-paperNoVpopWin").val();
+				// 获取出生日期和性别
+				var certMsg = getCertInfoByCertNO(zjhaoma);
+				var birthdaydate = certMsg.bothday;
+				var sexdata = certMsg.autoSex;
+			} else {
+				var zjhaoma = $("#for-paperNo_otherVpopWin").val();
+				var birthdaydate = $('#birthday').val();
+				var sexdata = $('#insurantCertSexVpopWin').val();
+			}
+			if ($("#relationshipWithInsuredVpopWin").val() == "00") {
+				$('#vpopWinError').text('请选择关系！');
+				return;
+			}
+			var data = $('<p>'
+				+'<span class="left cui_spanspan" id="showInsurantName" style="width:80%;overflow:hidden;color:#0079FB;">'
+				+$('#insurantNameVpopWin').val()
+				+'</span>'
+				+'<span class="right cui_spanright tc cui_posi bgC_FFF"><a onclick="javascript:deleteThisRows($(this));">删除</a></span>'
+				+'</p>');
+			$('.contentBodyOnly').append(data);
+			var inputHidden = $('<input name="insurantName" type="hidden" value="'
+				+$('#insurantNameVpopWin').val()
+				+'" />'
+		 		+'<input name="insurantCertType" type="hidden" value="'
+		 		+$("#insurantCertTypeVpopWin").val()
+		 		+'" />'
+		 		+'<input name="insurantCertNo" type="hidden" value="'
+		 		+zjhaoma
+		 		+'" />'
+		 		+'<input name="insurantCertBirthday" type="hidden" value="'
+		 		+birthdaydate
+		 		+'" />'
+		 		+'<input name="insurantCertSex" type="hidden" value="'
+		 		+sexdata
+		 		+'" />'
+		 		+'<input name="relationshipWithInsured" type="hidden" value="'
+		 		+$("#relationshipWithInsuredVpopWin").val()
+		 		+'" />');
+			$('#GetThisForm').append(inputHidden);
+			count++;
+			$("#alertVpopWin").remove();
+		});
+	}else{
+		if(n == 1){
+			$.vPopWin({
+				"tit" : "新增被保险人信息",
+				"winID" : "alertVpopWin",
+				"content" : '<div>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">家</span><span style="width:14px" class="left">庭</span><span style="width:14px" class="left">关</span><span style="width:14px" class="left">系</span></span>'
+				+'<select class="select_class" onchange="changerelationship($(this))" id="relationshipWithInsuredVpopWin">'
+				+'<option value="00" selected="selected">请选择</option>'
+				+'<option value="22">父母</option>'
+				+'<option value="I">子女</option>'
+				+'<option value="2">配偶</option>'
+				+'<option value="9">其他</option>'
+				+'</select><span class="right cui_spanright tc cui_posi bgC_FFF"></span></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">姓</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">名</span></span><input class="left input_class" type="text" id="insurantNameVpopWin" placeholder="请输入投保人姓名"></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">证</span><span style="width:14px" class="left">件</span><span style="width:14px" class="left">类</span><span style="width:14px" class="left">型</span></span>'
+				+'<select class="select_class" onchange="changeType($(this).val(),'
+				+ "'VpopWin'"
+				+',$(this))" id="insurantCertTypeVpopWin">'
+				+'<option value="01">身份证</option>'
+				+'<option value="02">护照</option>'
+				+'<option value="03">军官证</option>'
+				+'<option value="05">驾驶证</option>'
+				+'<option value="06">港澳回乡证或台胞证</option>'
+				+'<option value="99">其他</option>'
+				+'</select><span class="right cui_spanright tc cui_posi bgC_FFF"></span></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">证</span><span style="width:14px" class="left">件</span><span style="width:14px" class="left">号</span><span style="width:14px" class="left">码</span></span>'
+				+'<input class="left input_class" type="tel" id="for-paperNoVpopWin" maxlength="18" placeholder="证件号码中X用*号代替" onchange="ConversionSymbols(this)">'
+				+'<input class="left input_class" type="text" id="for-paperNo_otherVpopWin" maxlength="18" placeholder="请输入证件号码" disabled style="display: none;">'
+				+'</p>'
+				+'<p id="birthdaybox" style="display: none;"><span class="left cui_spanspan"><span style="width:14px" class="left">出</span><span style="width:14px" class="left">生</span><span style="width:14px" class="left">年</span><span style="width:14px" class="left">龄</span></span><input class="left input_class" type="text" id="birthday" readonly></p>'
+				+'<p id="sexbox" style="display: none;"><span class="left cui_spanspan"><span style="width:14px" class="left">性</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">别</span></span><span class="left cui_spancenter"><input class="left radio_class" type="radio" id="nan" name="sex" checked value="M" onclick="copyVal($(this).val(),$('
+				+"'#insurantCertSexVpopWin'"
+				+'))"><label class="left" style="margin-left:10px;">男</label><input class="left radio_class" type="radio" id="nv" name="sex" value="F" onclick="copyVal($(this).val(),$('
+				+"'#insurantCertSexVpopWin'"
+				+'))" style="margin-left:10px;"><label class="left" style="margin-left:10px;">女</label></span><input class="left input_class" type="hidden" id="insurantCertSexVpopWin" value="M"></p>'
+				+'<p><span class="cui_spancenter" style="width:100%;color:red;text-align:center;display: block;" id="vpopWinError"></span></p>'
+				+'<p><span class="cui_spancenter left tc"><input class="button_class" id="cancelVpopWin" type="button" value="取消"></span><span class="cui_spancenter left tc"><input class="button_class" id="commfirVpopWin" type="button" value="确定"></span></p>'
+			});
+			$("#insurantCertTypeVpopWin").children().each(function() {
+				if ($(this).val() == $("#applicantCertType").val()) {
+					$(this).attr("selected", "selected");
+				}
+			});
+			if ($("#insurantCertTypeVpopWin").val() == "01") {
+				$("#for-paperNoVpopWin").show();
+				$("#for-paperNoVpopWin").removeAttr("disabled");
+				$("#for-paperNo_otherVpopWin").hide();
+				$("#for-paperNo_otherVpopWin").attr("disabled", "disabled");
+				$("#for-paperNoVpopWin").val($("#for-paperNo1").val());
+			} else {
+				$("#for-paperNo_otherVpopWin").show();
+				$("#for-paperNoVpopWin").hide();
+				$("#for-paperNo_otherVpopWin").removeAttr("disabled");
+				$("#for-paperNoVpopWin").attr("disabled", "disabled");
+				$("#for-paperNo_otherVpopWin").val($("#for-paperNo_other1").val());
+			}
+		}else{
+			$.vPopWin({
+				"tit" : "新增被保险人信息",
+				"winID" : "alertVpopWin",
+				"content" : '<div>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">家</span><span style="width:14px" class="left">庭</span><span style="width:14px" class="left">关</span><span style="width:14px" class="left">系</span></span>'
+				+'<select class="select_class" onchange="changerelationship($(this))" id="relationshipWithInsuredVpopWin">'
+				+'<option value="00" selected="selected">请选择</option>'
+				+'<option value="1">本人</option>'
+				+'<option value="22">父母</option>'
+				+'<option value="I">子女</option>'
+				+'<option value="2">配偶</option>'
+				+'<option value="9">其他</option>'
+				+'</select><span class="right cui_spanright tc cui_posi bgC_FFF"></span></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">姓</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">名</span></span><input class="left input_class" type="text" id="insurantNameVpopWin" placeholder="请输入投保人姓名"></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">证</span><span style="width:14px" class="left">件</span><span style="width:14px" class="left">类</span><span style="width:14px" class="left">型</span></span>'
+				+'<select class="select_class" onchange="changeType($(this).val(),'
+				+ "'VpopWin'"
+				+',$(this))" id="insurantCertTypeVpopWin">'
+				+'<option value="01">身份证</option>'
+				+'<option value="02">护照</option>'
+				+'<option value="03">军官证</option>'
+				+'<option value="05">驾驶证</option>'
+				+'<option value="06">港澳回乡证或台胞证</option>'
+				+'<option value="99">其他</option>'
+				+'</select><span class="right cui_spanright tc cui_posi bgC_FFF"></span></p>'
+				+'<p><span class="left cui_spanspan"><span style="width:14px" class="left">证</span><span style="width:14px" class="left">件</span><span style="width:14px" class="left">号</span><span style="width:14px" class="left">码</span></span>'
+				+'<input class="left input_class" type="tel" id="for-paperNoVpopWin" maxlength="18" placeholder="证件号码中X用*号代替" onchange="ConversionSymbols(this)">'
+				+'<input class="left input_class" type="text" id="for-paperNo_otherVpopWin" maxlength="18" placeholder="请输入证件号码" disabled style="display: none;">'
+				+'</p>'
+				+'<p id="birthdaybox" style="display: none;"><span class="left cui_spanspan"><span style="width:14px" class="left">出</span><span style="width:14px" class="left">生</span><span style="width:14px" class="left">年</span><span style="width:14px" class="left">龄</span></span><input class="left input_class" type="text" id="birthday" readonly></p>'
+				+'<p id="sexbox" style="display: none;"><span class="left cui_spanspan"><span style="width:14px" class="left">性</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">&nbsp;</span><span style="width:14px" class="left">别</span></span><span class="left cui_spancenter"><input class="left radio_class" type="radio" id="nan" name="sex" checked value="M" onclick="copyVal($(this).val(),$('
+				+"'#insurantCertSexVpopWin'"
+				+'))"><label class="left" style="margin-left:10px;">男</label><input class="left radio_class" type="radio" id="nv" name="sex" value="F" onclick="copyVal($(this).val(),$('
+				+"'#insurantCertSexVpopWin'"
+				+'))" style="margin-left:10px;"><label class="left" style="margin-left:10px;">女</label></span><input class="left input_class" type="hidden" id="insurantCertSexVpopWin" value="M"></p>'
+				+'<p><span class="cui_spancenter" style="width:100%;color:red;text-align:center;display: block;" id="vpopWinError"></span></p>'
+				+'<p><span class="cui_spancenter left tc"><input class="button_class" id="cancelVpopWin" type="button" value="取消"></span><span class="cui_spancenter left tc"><input class="button_class" id="commfirVpopWin" type="button" value="确定"></span></p>'
+			});
+		}
+	}
+	//向右的图标
+	var sl = (40 - 14) / 2;
+	$('.cui_spanright img').css('width',14);
+	$('.cui_spanright img').css('marginTop',sl);
+	$('.vPopWin-content p').find('.cui_spanspan').css('width','25%');
+	$('.vPopWin-content p').find('.input_class').css('width','68%');
+	$('.vPopWin-content p').find('.select_class').css('width','62%');
+	$('#vpopWinError').parent().css('border','0');
+	$('.button_class').parent().parent().css('border','0');
+	if($("#insurantCertTypeVpopWin").val() == "01"){
+		$('.vPopWin-inner').css('top','30%');
+	}else{
+		$('.vPopWin-inner').css('top','23%');
+	}
+	$("#cancelVpopWin").click(function() {
+		$("#alertVpopWin").remove();
+	})
+}
+//修改
+function revise(){
+	var guanxiVpopWin = document.getElementsByName('relationshipWithInsured');
+	var guanxiVpopWinLength = guanxiVpopWin.length;
+	var doCountVpopWin;
+	var guanxiVpopWinA = new Array(); 
+	var guanxiVpopWinS
+	for(var i=0;i<guanxiVpopWinLength;i++){
+		var n = guanxiVpopWin[i].value;
+		guanxiVpopWinA.push(n);
+	}
+	guanxiVpopWinS = guanxiVpopWinA.join(',');
+	//alert(guanxiS);
+	if(guanxiVpopWinS.charAt(0) == '1'){
+		doCountVpopWin = 2
+	}else{
+		if(guanxiVpopWinS.indexOf('1') != -1){
+			doCountVpopWin = 1;
+		}else{
+			doCountVpopWin = 2;
+		}
+	}
+	showAcount(2,doCountVpopWin);
+	
+	var n = $('#firstInsurantName').val();// 姓名
+	var gx = $('#firstRelationshipWithInsured').val();// 关系
+	var a = $('#firstInsurantCertBirthday').val();// 年龄
+	var s = $('#firstInsurantCertSex').val();// 性别
+	var z = $('#firstInsurantCertNo').val();// 证件号
+	var t = $('#firstInsurantCertType').val();// 证件类型
+	
+	$('#insurantNameVpopWin').val(n);
+	$('#relationshipWithInsuredVpopWin').val(gx);
+	
+	$('#insurantCertTypeVpopWin').val(t);
+	if($('#insurantCertTypeVpopWin').val() == '01'){
+		$('#for-paperNoVpopWin').css('display','block').css('position','inherit');
+		$('#for-paperNo_otherVpopWin').css('display','none');
+		$('#birthdaybox').hide();
+		$('#sexbox').hide();
+		$('.vPopWin-inner').css('top','30%');
+		$('#for-paperNoVpopWin').val(z);
+	}else{
+		$('#for-paperNoVpopWin').css('display','none');
+		$('#for-paperNo_otherVpopWin').css('display','block').css('position','inherit');
+		$('#birthdaybox').css('display','block');
+		$('#sexbox').css('display','block');
+		$('.vPopWin-inner').css('top','20%');
+		$('#for-paperNo_otherVpopWin').val(z);
+		$('#birthday').val(a);
+		$('#insurantCertSexVpopWin').val(s);
+		var stratDate = $('#birthday').val();
+		var birthdayControl = $('#birthday') , currentDate = new Date(new Date().getTime() + 24*60*60*1000) , curr = currentDate.getFullYear();
+		var opt = {};
+		opt.date = {preset : 'date'};
+		birthdayControl.val(stratDate).scroller('destroy').scroller($.extend(opt.date, {theme: 'default', mode: 'scroller', display: 'modal', lang: 'zh' , startYear: curr-100 , endYear: curr}));
+	}
+	$('#commfirVpopWin').click(function(){
+		$('#vpopWinError').text('');
+		if($('#insurantNameVpopWin').val() == ''){
+			$('#vpopWinError').text('投保人姓名不能为空！');
+			return false;
+		}
+		if ($("#insurantCertTypeVpopWin").val() == "01" && $("#for-paperNoVpopWin").val() == "") {
+			$('#vpopWinError').text('投保人证件号码不能为空！');
+			return false;
+		}
+		if ($("#insurantCertTypeVpopWin").val() != "01" && $("#for-paperNo_otherVpopWin").val() == "") {
+			$('#vpopWinError').text('投保人证件号码不能为空！');
+			return false;
+		}
+		if ($("#insurantCertTypeVpopWin").val() == "01" && $("#for-paperNoVpopWin").val() != "") {
+			if (!valiateShenfenz($("#for-paperNoVpopWin").val(), '1', 'vpopWinError')) {
+				//$('#error').text('投保人身份证格式不合规范！');
+				return false;
+			}
+		}
+		if ($("#insurantCertTypeVpopWin").val() != "01" && $("#for-paperNo_otherVpopWin").val() != "") {
+			if (!valiateBirthday($("#insurantCertSexVpopWin").val(), '1', 'vpopWinError')) {
+				//$('#error').text('投保人出生日期！');
+				return false;
+			}
+		}
+		if ($("#insurantCertTypeVpopWin").val() == "01") {
+			var zjhaoma = $("#for-paperNoVpopWin").val();
+			// 获取出生日期和性别
+			var certMsg = getCertInfoByCertNO(zjhaoma);
+			var birthdaydate = certMsg.bothday;
+			var sexdata = certMsg.autoSex;
+		} else {
+			var zjhaoma = $("#for-paperNo_otherVpopWin").val();
+			var birthdaydate = $('#birthday').val();
+			var sexdata = $('#insurantCertSexVpopWin').val();
+		}
+		if ($("#relationshipWithInsuredVpopWin").val() == "00") {
+			$('#vpopWinError').text('请选择关系！');
+			return;
+		}
+		$('#showInsurantName').text($('#insurantNameVpopWin').val());
+		$('#firstInsurantName').val($('#insurantNameVpopWin').val());// 姓名
+		$('#firstRelationshipWithInsured').val($("#relationshipWithInsuredVpopWin").val());// 关系
+		$('#firstInsurantCertBirthday').val(birthdaydate);// 年龄
+		$('#firstInsurantCertSex').val(sexdata);// 性别
+		$('#firstInsurantCertNo').val(zjhaoma);// 证件号
+		$('#firstInsurantCertType').val($("#insurantCertTypeVpopWin").val());// 证件类型
+		$("#alertVpopWin").remove();
+	});
+}
+
+//删除
+function deleteThisRows(obj){
+	if(count <= 1){
+		$('#eror').text('被保险人最少1个');
+		return false;
+	}
+	var oIndex = obj.parent().parent().index();
+	obj.parent().parent().remove();
+	var tinput01 = document.getElementsByName('insurantName')[oIndex];
+	var tinput02 = document.getElementsByName('relationshipWithInsured')[oIndex];
+	var tinput03 = document.getElementsByName('insurantCertType')[oIndex];
+	var tinput04 = document.getElementsByName('insurantCertNo')[oIndex];
+	var tinput05 = document.getElementsByName('insurantCertBirthday')[oIndex];
+	var tinput06 = document.getElementsByName('insurantCertSex')[oIndex];
+	tinput01.remove();
+	tinput02.remove();
+	tinput03.remove();
+	tinput04.remove();
+	tinput05.remove();
+	tinput06.remove();
+	count--;
+}
+
+//允许
+function greatAll(checked){
+	if(checked){
+		$('#goToPay').removeClass('input_submitDisabled').addClass('input_submit').removeAttr('disabled');
+	}else{
+		$('#goToPay').removeClass('input_submit').addClass('input_submitDisabled').attr('disabled','disabled');
+	}
+}
+
+//条款
+function provision(){
+	var productCode = $('input[name=productCode]').val();
+
+	//window.open('http://property.pingan.com/app/miuiProvision/'+productCode+'.html');
+	var urls = 'http://property.pingan.com/app/miuiProvision/'+productCode+'.html';
+	//window.location.href = urls;
+	var miuisProvision = document.createElement('iframe');
+	miuisProvision.setAttribute('id','miuisProvision');
+	document.body.appendChild(miuisProvision);
+	$('#miuisProvision').attr('src',urls);
+	var closeMiuProv = document.createElement('a');
+	closeMiuProv.setAttribute('id','closedMiuProv');
+	closeMiuProv.setAttribute('onclick','closeMiuProvIt()');
+	document.body.appendChild(closeMiuProv);
+}
+
+//关闭条款
+function closeMiuProvIt(){
+	document.body.removeChild(document.getElementById('miuisProvision'));
+	document.body.removeChild(document.getElementById('closedMiuProv'));
+}
+
+//声明
+function statement(){
+	$('#statementbu').show();
+}
+
+//关闭声明
+function closeThis(obj){
+	obj.parent().parent().parent().hide();
+}
+
+//支付
+function goPay(){
+	var formObj = document.getElementById('GetThisForm');
+	formObj.action = 'four.html';
+	formObj.method = 'post';
+	formObj.target = '_self';
+	formObj.submit();
+}
+
+function changerelationship(obj){
+	var n = $('#firstInsurantName').val();// 姓名
+	var gx = $('#firstRelationshipWithInsured').val();// 关系
+	var a = $('#firstInsurantCertBirthday').val();// 年龄
+	var s = $('#firstInsurantCertSex').val();// 性别
+	var z = $('#firstInsurantCertNo').val();// 证件号
+	var t = $('#firstInsurantCertType').val();// 证件类型
+	if(obj.val() == '1'){
+		$('#insurantNameVpopWin').val(n);
+		$('#relationshipWithInsuredVpopWin').val(gx);
+		if($('#insurantCertTypeVpopWin').val() == '01'){
+			$('#birthdaybox').hide();
+			$('#sexbox').hide();
+		}else{
+			$('#birthdaybox').show();
+			$('#sexbox').show();
+			$('#birthday').val(a);
+			$('#insurantCertSexVpopWin').val(s);
+		}		
+		$('#insurantCertTypeVpopWin').val(t);
+		if($('#insurantCertTypeVpopWin').val() == '01'){
+			$('#for-paperNoVpopWin').val(z);
+		}else{
+			$('#for-paperNo_otherVpopWin').val(z);
+		}
+	}else{
+		$('#insurantNameVpopWin').val('');
+		if($('#insurantCertTypeVpopWin').val() == '01'){
+			$('#birthdaybox').hide();
+			$('#sexbox').hide();
+		}else{
+			$('#birthdaybox').show();
+			$('#sexbox').show();
+		}
+		
+		$('#insurantCertTypeVpopWin').val('');
+		$('#for-paperNoVpopWin').val('');
+		$('#for-paperNo_otherVpopWin').val('');
+	}
+}
+// 找关系
+function findShip(name){
+	var length = name.length;
+	//alert(length)
+	var counts,arrayName = new Array(),newString;
+	for(var i=0;i<length;i++){
+		var n = name[i].value;
+		arrayName.push(n);
+	}
+	//alert(arrayName);
+	newString = arrayName.join(',');
+	if(newString.indexOf('1') != -1){
+		counts = 1;
+	}else{
+		counts = 2;
+	}
+	return counts;
+}
+
+// 获取生日和性别
+function getCertInfoByCertNO(certNo){
+	var certInfo = new Object();
+	if(certNo.length == 15){
+		var year = certNo.substring(4,8);
+		var month = certNo.substring(8,10);
+		var day =  certNo.substring(10,12);
+		certInfo.bothday=year+"-"+month+"-"+day;
+		var aSex = certNo.substring(13,14);
+		if( aSex % 2 == 1){
+			certInfo.autoSex = 'M';
+		}else{
+			certInfo.autoSex = 'F';
+		}
+		//certInfo.autoSex = certNo.substring(13,14);
+		
+	} else if(certNo.length == 18){
+	    var year = certNo.substring(6,10);
+		var month = certNo.substring(10,12);
+		var day =  certNo.substring(12,14);
+		certInfo.bothday=year+"-"+month+"-"+day;
+		var aSex = certNo.substring(16,17);
+		if( aSex % 2 == 1){
+			certInfo.autoSex = 'M';
+		}else{
+			certInfo.autoSex = 'F';
+		}
+	}
+	
+	return certInfo;
+}
