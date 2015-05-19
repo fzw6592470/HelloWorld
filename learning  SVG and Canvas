@@ -1,0 +1,112 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+	<meta name="format-detection" content="telephone=no"> 
+	<title>bootstrap 开发</title>
+	<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+	<style type="text/css">
+		*{
+			padding:0;
+			margin:0;
+		}
+		body{
+			width:100%;
+			height:100%;
+		}
+		#mine{
+			padding:0;
+			margin-top: 20%;
+		}
+	</style>
+</head>
+<body>
+	<svg id="mine" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+		<defs>
+			<radialGradient  r="0.5" cy="0.5" cx="0.5" id="l1">
+				<stop stop-opacity="0.6" stop-color="#000fff" offset="0"></stop>
+				<stop stop-opacity="0.8" stop-color="#000fff" offset="1"></stop>
+			</radialGradient>
+		</defs>
+		<g>
+			<title>safsdf</title>
+			<rect width="320" height="150" x="0" y="0" id="rects" fill="url(#l1)" stroke-width="0" stroke="#000" />
+			<rect width="320" height="150" x="0" y="0" id="rects" fill="#ff0000" fill-opacity="0.2" stroke-width="0" stroke="#000" />
+			<circle r="50" cx="160" cy="75" fill="#00f0ff" stroke-width="5" stroke="#000"></circle>
+		</g>
+		<path d="M0 0,L20 20,L30,50,L150,0z" stroke-width="5" fill="none" stroke="#000"></path>
+		<polyline points="10,10,20,20,30,30,40,40,50,50,60,60,70,70,80,10,0,90,90,90,60,120,0,0" stroke-width="5" fill="none" stroke="#000"></polyline>
+	</svg>
+
+	<svg width="320" height="200">
+		<defs>
+			<pattern id="p1" patternUnits="userSpaceOnUse" width="100" height="100">
+				<image xlink:href="images/icon_02.png" x="0" y="0" width="120" height="120" />
+			</pattern>
+		</defs>
+		<circle cx="100" cy="120" fill="url(#p1)" r="50"></circle>
+	</svg>
+	<canvas width="100" height="100" id="myCanvas" style="margin-left:100px">
+
+	</canvas>
+	
+	<svg width="320" height="320">
+		
+			<text font-family="Microsoft Yahei" font-size="30" y="160" x="160">马
+				<animate id="animation" attributeName="x" dur="3s" to="60" begin="indefinite" repeatCount="indefinite" />
+			</text>
+	
+		<a xlink:href="#animation">
+			<text  x="100" y="30" font-size="30" fill="#cccccc">点击我</text>
+		</a>
+	</svg>
+	<svg width="320" height="100">
+	    <text font-size="60" y="60" x="160">马
+	        <animate attributeName="x" dur="5s" values="0; 20; 160" calcMode="linear" />
+	    </text>
+	</svg>
+	<svg width="320" height="100">
+		<text font-size="60" y="60" x="160">马
+			<animate attributeName="x" dur="5s" values="0;20;160" calcMode="paced" />
+		</text>
+	</svg>
+	<svg width="320" height="100">
+		<text font-size="60" y="60" x="160">马
+			<animate attributeName="x" dur="5s" values="0;90;160" calcMode="linear" keyTimes="0;.8;1" />
+		</text>
+	</svg>
+	<svg width="320" height="100">
+		<text font-size="60" y="60" x="160">马
+			<animate attributeName="x" dur="5s" values="0;80;160" keyTimes="0;.8;1" calcMode="spline" keySplines=".5 0 .5 1;0 0 1 1" />
+		</text>
+	</svg>
+	<script type="text/javascript">
+		//圆角矩形
+		CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+		    var min_size = Math.min(w, h);
+		    if (r > min_size / 2) r = min_size / 2;
+		    // 开始绘制
+		    this.beginPath();
+		    this.moveTo(x + r, y);
+		    this.arcTo(x + w, y, x + w, y + h, r);
+		    this.arcTo(x + w, y + h, x, y + h, r);
+		    this.arcTo(x, y + h, x, y, r);
+		    this.arcTo(x, y, x + w, y, r);
+		    this.closePath();
+		    return this;
+		}
+		var ctx = document.getElementById('myCanvas').getContext('2d');
+		var image = new Image();
+		image.onload = function(){
+			var pattern = ctx.createPattern(image,'no-repeat');
+			//ctx.arc(50,50,50,0,2*Math.PI,false);
+			ctx.roundRect(0,0,100,100,10);
+			ctx.fillStyle=pattern;
+			ctx.fill();
+		}
+		image.src="images/icon_02.png";
+	</script>
+</body>	
+</html>
