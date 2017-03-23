@@ -124,9 +124,12 @@
 		 $(obj).parent().find('#fileChecker').width(0);
 		 var div=$('<div id="newPreview"></div>');
 		 $(obj).parent().append(div);
-		 $(obj).parent().find('#newPreview')[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = obj.value;
-         $(obj).parent().find('#newPreview')[0].style.width = "234px";
-         $(obj).parent().find('#newPreview')[0].style.height = "110px";
+		 imgPath = document.selection.createRange().text;
+		 var tempValue = "progid:DXImageTransform.Microsoft.AlphaImageLoader("tempValue += "enabled='true',sizingMethod='scale',src=\"" + imgPath + "\")";
+		 document.getElementsById("newPreview").style.filter = tempValue;	
+  		 //$(obj).parent().find('#newPreview')[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = obj.value;
+         	 document.getElementsById("newPreview").style.width = "234px";
+         	 document.getElementsById("newPreview").style.height = "110px";
 		 $(obj).parent().find("#opertion").attr("src",'images/delete.png')
 		 
 	 }
